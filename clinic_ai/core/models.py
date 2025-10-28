@@ -1,5 +1,5 @@
 """
-Core domain models for the Hospital & Clinic Patient Management System.
+Core domain models for CareBridge AI - Hospital & Clinic Patient Management System.
 Following SOLID principles with composition over inheritance.
 """
 

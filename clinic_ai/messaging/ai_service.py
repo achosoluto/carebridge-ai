@@ -1,5 +1,5 @@
 """
-AI-powered message response service.
+AI-powered message response service for CareBridge AI.
 Composition-based design using dependency injection for translator and detector.
 """
 

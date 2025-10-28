@@ -1,5 +1,5 @@
 """
-Abstract interfaces for the Hospital & Clinic Patient Management System.
+Abstract interfaces for CareBridge AI - Hospital & Clinic Patient Management System.
 Following Dependency Inversion Principle - high-level modules depend on abstractions.
 Composition-enabled design with clear contracts.
 """
