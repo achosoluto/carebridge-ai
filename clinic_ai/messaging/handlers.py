@@ -5,6 +5,7 @@ Composition-based design using message handlers and processors.
 
 import json
 import logging
+import requests
 from typing import Optional, Dict, Any
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt

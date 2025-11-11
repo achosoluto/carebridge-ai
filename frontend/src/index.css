@@ -1,0 +1,75 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: Inter, system-ui, sans-serif;
+  }
+  
+  body {
+    @apply bg-gray-50 text-gray-900;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply px-4 py-2 rounded-lg font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2;
+  }
+  
+  .btn-primary {
+    @apply btn bg-healthcare-primary text-white hover:bg-healthcare-dark focus:ring-healthcare-primary;
+  }
+  
+  .btn-secondary {
+    @apply btn bg-gray-200 text-gray-800 hover:bg-gray-300 focus:ring-gray-500;
+  }
+  
+  .btn-danger {
+    @apply btn bg-red-600 text-white hover:bg-red-700 focus:ring-red-500;
+  }
+  
+  .card {
+    @apply bg-white rounded-xl shadow-sm border border-gray-200 p-6;
+  }
+  
+  .message-bubble {
+    @apply max-w-xs lg:max-w-md px-4 py-2 rounded-lg break-words;
+  }
+  
+  .message-incoming {
+    @apply message-bubble bg-gray-100 text-gray-800 self-start;
+  }
+  
+  .message-outgoing {
+    @apply message-bubble bg-healthcare-primary text-white self-end ml-auto;
+  }
+  
+  .status-indicator {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+  
+  .status-pending {
+    @apply status-indicator bg-yellow-100 text-yellow-800;
+  }
+  
+  .status-confirmed {
+    @apply status-indicator bg-green-100 text-green-800;
+  }
+  
+  .status-cancelled {
+    @apply status-indicator bg-red-100 text-red-800;
+  }
+  
+  .confidence-high {
+    @apply text-green-600 bg-green-50 px-2 py-1 rounded text-sm font-medium;
+  }
+  
+  .confidence-medium {
+    @apply text-yellow-600 bg-yellow-50 px-2 py-1 rounded text-sm font-medium;
+  }
+  
+  .confidence-low {
+    @apply text-red-600 bg-red-50 px-2 py-1 rounded text-sm font-medium;
+  }
+}

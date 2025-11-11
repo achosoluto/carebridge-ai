@@ -1,0 +1,137 @@
+INFO 2025-11-06 01:18:41,469 autoreload 32920 8582733568 Watching for file changes with StatReloader
+INFO 2025-11-06 01:31:58,169 autoreload 42900 8582733568 Watching for file changes with StatReloader
+INFO 2025-11-06 11:37:33,805 basehttp 42900 6127054848 "GET / HTTP/1.1" 302 0
+WARNING 2025-11-06 11:37:48,648 log 42900 6127054848 Not Found: /api/status
+WARNING 2025-11-06 11:37:48,648 basehttp 42900 6127054848 "GET /api/status HTTP/1.1" 404 13407
+INFO 2025-11-06 11:38:02,394 basehttp 42900 6127054848 "GET / HTTP/1.1" 302 0
+WARNING 2025-11-06 11:38:02,400 log 42900 6127054848 Forbidden: /api/
+WARNING 2025-11-06 11:38:02,400 basehttp 42900 6127054848 "GET /api/ HTTP/1.1" 403 69
+WARNING 2025-11-06 11:38:02,475 log 42900 6127054848 Not Found: /favicon.ico
+WARNING 2025-11-06 11:38:02,475 basehttp 42900 6127054848 "GET /favicon.ico HTTP/1.1" 404 2837
+INFO 2025-11-06 12:31:59,998 basehttp 42900 6127054848 "GET / HTTP/1.1" 302 0
+WARNING 2025-11-06 12:32:00,003 log 42900 6127054848 Forbidden: /api/
+WARNING 2025-11-06 12:32:00,004 basehttp 42900 6127054848 "GET /api/ HTTP/1.1" 403 69
+INFO 2025-11-06 12:32:08,205 basehttp 42900 6127054848 "GET / HTTP/1.1" 302 0
+WARNING 2025-11-06 12:32:08,210 log 42900 6127054848 Forbidden: /api/
+WARNING 2025-11-06 12:32:08,210 basehttp 42900 6127054848 "GET /api/ HTTP/1.1" 403 69
+WARNING 2025-11-06 12:32:08,297 log 42900 6127054848 Not Found: /favicon.ico
+WARNING 2025-11-06 12:32:08,297 basehttp 42900 6127054848 "GET /favicon.ico HTTP/1.1" 404 2837
+WARNING 2025-11-10 22:04:45,586 log 42900 6127054848 Not Found: /realms/vendorgrid
+WARNING 2025-11-10 22:04:45,588 basehttp 42900 6127054848 "GET /realms/vendorgrid HTTP/1.1" 404 2855
+WARNING 2025-11-10 23:24:19,339 log 42900 6127054848 Not Found: /realms/master
+WARNING 2025-11-10 23:24:19,341 basehttp 42900 6127054848 "GET /realms/master HTTP/1.1" 404 2843
+INFO 2025-11-11 09:55:06,911 autoreload 42900 8582733568 /Users/acmac/Documents/GitHub/carebridge-ai/config/settings.py changed, reloading.
+INFO 2025-11-11 09:55:59,061 autoreload 9102 8582733568 Watching for file changes with StatReloader
+WARNING 2025-11-11 10:01:51,766 log 9102 6134525952 Forbidden: /api/health/
+WARNING 2025-11-11 10:01:51,767 basehttp 9102 6134525952 "GET /api/health/ HTTP/1.1" 403 69
+INFO 2025-11-11 10:02:21,567 autoreload 9102 8582733568 /Users/acmac/Documents/GitHub/carebridge-ai/config/settings.py changed, reloading.
+INFO 2025-11-11 10:02:21,971 autoreload 11567 8582733568 Watching for file changes with StatReloader
+INFO 2025-11-11 10:02:45,328 autoreload 11918 8582733568 Watching for file changes with StatReloader
+INFO 2025-11-11 10:02:58,781 basehttp 11567 6201405440 "GET /api/health/ HTTP/1.1" 200 152
+INFO 2025-11-11 10:03:09,789 basehttp 11567 6201405440 "GET /admin/ HTTP/1.1" 302 0
+INFO 2025-11-11 10:03:20,386 basehttp 11567 6201405440 "GET /api/patients/ HTTP/1.1" 200 52
+INFO 2025-11-11 10:06:02,320 autoreload 13865 8582733568 Watching for file changes with StatReloader
+INFO 2025-11-11 10:06:11,832 basehttp 11567 6201405440 "GET /api/health/ HTTP/1.1" 200 150
+INFO 2025-11-11 10:06:16,046 basehttp 11567 6201405440 "GET /admin/ HTTP/1.1" 302 0
+INFO 2025-11-11 10:06:20,816 basehttp 11567 6201405440 "GET /api/patients/ HTTP/1.1" 200 922
+INFO 2025-11-11 10:06:25,821 basehttp 11567 6201405440 "GET /api/messages/ HTTP/1.1" 200 2160
+WARNING 2025-11-11 10:06:38,201 log 11567 6201405440 Bad Request: /api/process-message/
+WARNING 2025-11-11 10:06:38,202 basehttp 11567 6201405440 "POST /api/process-message/ HTTP/1.1" 400 55
+ERROR 2025-11-11 10:06:48,359 handlers 11567 6201405440 Message processing error: 'NoneType' object has no attribute 'generate_response'
+INFO 2025-11-11 10:06:48,359 basehttp 11567 6201405440 "POST /api/process-message/ HTTP/1.1" 200 85
+INFO 2025-11-11 10:07:11,206 autoreload 11567 8582733568 /Users/acmac/Documents/GitHub/carebridge-ai/clinic_ai/api/views.py changed, reloading.
+INFO 2025-11-11 10:08:25,508 autoreload 15969 8582733568 Watching for file changes with StatReloader
+INFO 2025-11-11 10:12:55,728 basehttp 15969 6129152000 "GET /api/patients/ HTTP/1.1" 200 922
+ERROR 2025-11-11 10:13:02,851 ai_service 15969 6129152000 AI service error: Error code: 401 - {'error': {'message': 'Incorrect API key provided: test_key. You can find your API key at https://platform.openai.com/account/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}
+INFO 2025-11-11 10:13:02,851 ai_service 15969 6129152000 Using fallback AI service for message: 안녕하세요, 이환자입니다. 얼굴보톡스 시술을 예약하고 싶습니다....
+WARNING 2025-11-11 10:13:02,853 handlers 15969 6129152000 Human intervention needed for message 8: 안녕하세요, 이환자입니다. 얼굴보톡스 시술을 예약하고 싶습니다....
+INFO 2025-11-11 10:13:02,854 basehttp 15969 6129152000 "POST /api/process-message/ HTTP/1.1" 200 87
+ERROR 2025-11-11 10:13:10,389 handlers 15969 6129152000 Message processing error: 'NoneType' object has no attribute 'translate'
+INFO 2025-11-11 10:13:10,389 basehttp 15969 6129152000 "POST /api/process-message/ HTTP/1.1" 200 77
+INFO 2025-11-11 10:13:18,936 autoreload 15969 8582733568 /Users/acmac/Documents/GitHub/carebridge-ai/clinic_ai/api/views.py changed, reloading.
+INFO 2025-11-11 10:13:41,057 autoreload 18509 8582733568 Watching for file changes with StatReloader
+ERROR 2025-11-11 10:14:36,566 ai_service 18509 6170652672 AI service error: Error code: 401 - {'error': {'message': 'Incorrect API key provided: test_key. You can find your API key at https://platform.openai.com/account/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}
+INFO 2025-11-11 10:14:36,566 ai_service 18509 6170652672 Using fallback AI service for message: Hello, I would like to book a consultation appoint...
+WARNING 2025-11-11 10:14:36,569 handlers 18509 6170652672 Human intervention needed for message 9: Hello, I would like to book a consultation appoint...
+INFO 2025-11-11 10:14:36,570 basehttp 18509 6170652672 "POST /api/process-message/ HTTP/1.1" 200 87
+INFO 2025-11-11 10:14:56,726 basehttp 18509 6170652672 "GET /api/messages/ HTTP/1.1" 200 3276
+INFO 2025-11-11 10:15:07,812 basehttp 18509 6170652672 "GET /admin/ HTTP/1.1" 302 0
+INFO 2025-11-11 10:15:16,795 basehttp 18509 6170652672 "GET /api/health/ HTTP/1.1" 200 150
+INFO 2025-11-11 10:15:27,516 basehttp 18509 6170652672 "GET /api/appointments/ HTTP/1.1" 200 765
+INFO 2025-11-11 10:26:53,877 basehttp 18509 6170652672 "GET /api/health/ HTTP/1.1" 200 150
+INFO 2025-11-11 10:26:59,443 basehttp 18509 6170652672 "GET /api/patients/ HTTP/1.1" 200 922
+INFO 2025-11-11 10:27:05,131 basehttp 18509 6170652672 "GET /api/messages/ HTTP/1.1" 200 3276
+INFO 2025-11-11 10:27:11,177 basehttp 18509 6170652672 "GET /api/appointments/ HTTP/1.1" 200 765
+INFO 2025-11-11 10:34:38,762 basehttp 18509 6170652672 "GET /api/patients/ HTTP/1.1" 200 922
+INFO 2025-11-11 10:34:46,151 basehttp 18509 6170652672 "GET /api/messages/ HTTP/1.1" 200 3276
+INFO 2025-11-11 10:34:53,273 basehttp 18509 6170652672 "GET /api/appointments/ HTTP/1.1" 200 765
+INFO 2025-11-11 10:35:27,652 basehttp 18509 6170652672 "GET /api/patients/ HTTP/1.1" 200 922
+INFO 2025-11-11 10:35:55,745 basehttp 18509 6170652672 "GET /admin/ HTTP/1.1" 302 0
+INFO 2025-11-11 10:36:06,490 basehttp 18509 6170652672 "GET /api/health/ HTTP/1.1" 200 150
+INFO 2025-11-11 10:36:06,510 basehttp 18509 6170652672 "GET /api/patients/ HTTP/1.1" 200 922
+INFO 2025-11-11 10:36:06,525 basehttp 18509 6170652672 "GET /api/messages/ HTTP/1.1" 200 3276
+INFO 2025-11-11 10:36:06,537 basehttp 18509 6170652672 "GET /api/appointments/ HTTP/1.1" 200 765
+INFO 2025-11-11 10:38:42,499 autoreload 18509 8582733568 /Users/acmac/Documents/GitHub/carebridge-ai/clinic_ai/core/models.py changed, reloading.
+INFO 2025-11-11 10:38:43,181 autoreload 31826 8582733568 Watching for file changes with StatReloader
+INFO 2025-11-11 10:42:28,362 autoreload 31826 8582733568 /Users/acmac/Documents/GitHub/carebridge-ai/clinic_ai/api/serializers.py changed, reloading.
+INFO 2025-11-11 10:42:28,873 autoreload 33479 8582733568 Watching for file changes with StatReloader
+INFO 2025-11-11 10:44:00,658 autoreload 33479 8582733568 /Users/acmac/Documents/GitHub/carebridge-ai/clinic_ai/api/urls.py changed, reloading.
+INFO 2025-11-11 10:44:01,188 autoreload 34081 8582733568 Watching for file changes with StatReloader
+INFO 2025-11-11 10:50:06,612 basehttp 34081 6159724544 "GET /api/translations/ HTTP/1.1" 200 52
+INFO 2025-11-11 10:50:17,805 basehttp 34081 6159724544 "GET /api/doctors/ HTTP/1.1" 200 992
+INFO 2025-11-11 10:50:30,786 translation_enhanced 34081 6159724544 Loaded 15 medical terms into cache
+ERROR 2025-11-11 10:50:31,068 translation_enhanced 34081 6159724544 Google Translate API error: 400 Client Error: Bad Request for url: https://translation.googleapis.com/language/translate/v2?q=%EC%95%88%EB%85%95%ED%95%98%EC%84%B8%EC%9A%94&source=ko&target=en&key=test_key&format=text
+INFO 2025-11-11 10:50:31,071 basehttp 34081 6159724544 "POST /api/translations/translate/ HTTP/1.1" 200 124
+ERROR 2025-11-11 10:51:30,588 scheduling_optimizer 34081 6159724544 Error optimizing appointment: Field 'id' expected a number but got 'Dr. Kim Min-jun'.
+INFO 2025-11-11 10:51:30,589 basehttp 34081 6159724544 "POST /api/scheduling/optimize/ HTTP/1.1" 200 55
+INFO 2025-11-11 10:51:38,578 basehttp 34081 6159724544 "GET /api/doctors/ HTTP/1.1" 200 992
+INFO 2025-11-11 10:51:45,859 basehttp 34081 6159724544 "GET /api/procedure-types/ HTTP/1.1" 200 1924
+INFO 2025-11-11 10:52:15,220 autoreload 34081 8582733568 /Users/acmac/Documents/GitHub/carebridge-ai/clinic_ai/api/views_phase2.py changed, reloading.
+INFO 2025-11-11 10:52:15,757 autoreload 38594 8582733568 Watching for file changes with StatReloader
+INFO 2025-11-11 10:52:23,616 basehttp 38594 6203535360 "GET /api/doctors/1/availability/ HTTP/1.1" 200 1527
+ERROR 2025-11-11 10:52:31,102 scheduling_optimizer 38594 6203535360 Error optimizing appointment: Field 'id' expected a number but got <Doctor: Dr. Dr. Kim Min-jun - Plastic Surgery>.
+INFO 2025-11-11 10:52:31,102 basehttp 38594 6203535360 "POST /api/scheduling/optimize/ HTTP/1.1" 200 55
+INFO 2025-11-11 10:52:41,305 autoreload 38594 8582733568 /Users/acmac/Documents/GitHub/carebridge-ai/clinic_ai/api/views_phase2.py changed, reloading.
+INFO 2025-11-11 10:52:41,780 autoreload 38949 8582733568 Watching for file changes with StatReloader
+INFO 2025-11-11 10:52:49,462 basehttp 38949 6162624512 "POST /api/scheduling/optimize/ HTTP/1.1" 200 253
+ERROR 2025-11-11 10:53:01,010 views_phase2 38949 6162624512 Error finding slots: Field 'id' expected a number but got 'Dr. Kim Min-jun'.
+ERROR 2025-11-11 10:53:01,011 log 38949 6162624512 Internal Server Error: /api/scheduling/available-slots/
+ERROR 2025-11-11 10:53:01,012 basehttp 38949 6162624512 "POST /api/scheduling/available-slots/ HTTP/1.1" 500 67
+INFO 2025-11-11 10:53:09,475 autoreload 38949 8582733568 /Users/acmac/Documents/GitHub/carebridge-ai/clinic_ai/api/views_phase2.py changed, reloading.
+INFO 2025-11-11 10:53:09,940 autoreload 39309 8582733568 Watching for file changes with StatReloader
+INFO 2025-11-11 10:53:17,756 basehttp 39309 6125449216 "POST /api/scheduling/available-slots/ HTTP/1.1" 200 1260
+INFO 2025-11-11 10:53:36,300 basehttp 39309 6125449216 "GET /api/medical-terms/ HTTP/1.1" 200 4343
+INFO 2025-11-11 10:53:45,558 basehttp 39309 6125449216 "GET /api/medical-terms/search/?q=surgery&lang=en HTTP/1.1" 200 291
+INFO 2025-11-11 10:53:54,652 basehttp 39309 6125449216 "GET /api/medical-terms/?category=procedure HTTP/1.1" 200 1217
+INFO 2025-11-11 10:54:03,665 basehttp 39309 6125449216 "GET /api/medical-terms/categories/ HTTP/1.1" 200 85
+INFO 2025-11-11 10:54:12,255 translation_enhanced 39309 6125449216 Loaded 15 medical terms into cache
+ERROR 2025-11-11 10:54:12,461 translation_enhanced 39309 6125449216 Google Translate API error: 400 Client Error: Bad Request for url: https://translation.googleapis.com/language/translate/v2?q=%EC%95%88%EB%85%95%ED%95%98%EC%84%B8%EC%9A%94%2C+%EC%BD%94+%EC%84%B1%ED%98%95+%EC%88%98%EC%88%A0+%EC%83%81%EB%8B%B4%EC%9D%84+%EC%98%88%EC%95%BD%ED%95%98%EA%B3%A0+%EC%8B%B6%EC%8A%B5%EB%8B%88%EB%8B%A4&source=ko&target=en&key=test_key&format=text
+INFO 2025-11-11 10:54:12,465 basehttp 39309 6125449216 "POST /api/translations/translate/ HTTP/1.1" 200 179
+INFO 2025-11-11 10:54:23,028 notification_service 39309 6125449216 Scheduled reminder for appointment 1 at 2025-11-29 17:05:55.331856+00:00
+INFO 2025-11-11 10:54:23,028 basehttp 39309 6125449216 "POST /api/reminders/schedule/ HTTP/1.1" 200 53
+INFO 2025-11-11 10:54:32,589 scheduling_optimizer 39309 6125449216 Added patient 1 to waitlist (position: 1)
+INFO 2025-11-11 10:54:32,589 basehttp 39309 6125449216 "POST /api/waitlist/add/ HTTP/1.1" 200 65
+ERROR 2025-11-11 10:54:42,357 views_phase2 39309 6125449216 Waitlist processing error: Field 'id' expected a number but got 'Dr. Kim Min-jun'.
+ERROR 2025-11-11 10:54:42,358 log 39309 6125449216 Internal Server Error: /api/waitlist/process_notifications/
+ERROR 2025-11-11 10:54:42,358 basehttp 39309 6125449216 "POST /api/waitlist/process_notifications/ HTTP/1.1" 500 67
+INFO 2025-11-11 10:55:01,222 autoreload 39309 8582733568 /Users/acmac/Documents/GitHub/carebridge-ai/clinic_ai/messaging/scheduling_optimizer.py changed, reloading.
+INFO 2025-11-11 10:55:01,694 autoreload 40847 8582733568 Watching for file changes with StatReloader
+INFO 2025-11-11 10:55:10,873 scheduling_optimizer 40847 6194114560 Notified patient 1 about available slot
+INFO 2025-11-11 10:55:10,873 basehttp 40847 6194114560 "POST /api/waitlist/process_notifications/ HTTP/1.1" 200 39
+ERROR 2025-11-11 10:55:33,339 views_phase2 40847 6194114560 Error getting translation stats: name 'models' is not defined
+ERROR 2025-11-11 10:55:33,340 log 40847 6194114560 Internal Server Error: /api/translations/stats/
+ERROR 2025-11-11 10:55:33,340 basehttp 40847 6194114560 "GET /api/translations/stats/?days=30 HTTP/1.1" 500 40
+INFO 2025-11-11 15:05:29,901 basehttp 40847 6194114560 "GET /api/ HTTP/1.1" 200 677
+WARNING 2025-11-11 15:05:29,962 log 40847 6194114560 Not Found: /favicon.ico
+WARNING 2025-11-11 15:05:29,965 log 40847 6210940928 Not Found: /apple-touch-icon-precomposed.png
+WARNING 2025-11-11 15:05:29,965 basehttp 40847 6194114560 "GET /favicon.ico HTTP/1.1" 404 2837
+WARNING 2025-11-11 15:05:29,965 basehttp 40847 6210940928 "GET /apple-touch-icon-precomposed.png HTTP/1.1" 404 2900
+WARNING 2025-11-11 15:05:30,021 log 40847 6210940928 Not Found: /apple-touch-icon.png
+WARNING 2025-11-11 15:05:30,021 basehttp 40847 6210940928 "GET /apple-touch-icon.png HTTP/1.1" 404 2864
+INFO 2025-11-11 15:09:59,760 basehttp 40847 6194114560 "GET /api/health/ HTTP/1.1" 200 150
+INFO 2025-11-11 15:10:10,131 basehttp 40847 6194114560 "GET /api/doctors/ HTTP/1.1" 200 992
+INFO 2025-11-11 15:10:18,998 translation_enhanced 40847 6194114560 Loaded 15 medical terms into cache
+ERROR 2025-11-11 15:10:19,304 translation_enhanced 40847 6194114560 Google Translate API error: 400 Client Error: Bad Request for url: https://translation.googleapis.com/language/translate/v2?q=%EC%95%88%EB%85%95%ED%95%98%EC%84%B8%EC%9A%94&source=auto&target=en&key=test_key&format=text
+INFO 2025-11-11 15:10:19,307 basehttp 40847 6194114560 "POST /api/translations/translate/ HTTP/1.1" 200 126
+INFO 2025-11-11 15:10:30,737 basehttp 40847 6194114560 "POST /api/scheduling/optimize/ HTTP/1.1" 200 253
+INFO 2025-11-11 15:10:39,605 basehttp 40847 6194114560 "GET /api/medical-terms/ HTTP/1.1" 200 4343
