@@ -20,7 +20,8 @@ class OpenAIService(AIService):
 
     def __init__(self, config_service: ConfigurationService):
         self.config = config_service
-        self.client = openai.OpenAI(api_key=self.config.get_api_key('openai'))
+        self.api_key = self.config.get_api_key('openai')
+        self.client = openai.OpenAI(api_key=self.api_key)
 
     def generate_response(self, message: str, language: str, context: Optional[Dict] = None) -> Tuple[str, float]:
         """

@@ -286,9 +286,15 @@ class EnhancedTranslationService:
 
         # Translate using configured service
         start_time = time.time()
-        translated_text = self.translator.translate(
-            text, detected_lang, target_lang, message_id=message_id
-        )
+        # Check if the translator supports the message_id parameter
+        if hasattr(self.translator, '_save_translation_history'):
+            # EnhancedGoogleTranslateService with message_id support
+            translated_text = self.translator.translate(
+                text, detected_lang, target_lang, message_id=message_id
+            )
+        else:
+            # Standard translator interface
+            translated_text = self.translator.translate(text, detected_lang, target_lang)
         processing_time = time.time() - start_time
 
         return {

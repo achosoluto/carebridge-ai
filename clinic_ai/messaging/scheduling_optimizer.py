@@ -220,6 +220,102 @@ class AdvancedSchedulingOptimizer(Scheduler):
         )
 
         return closest_slot
+    
+    def get_optimization_recommendations(self, appointments: List[Dict]) -> List[Dict]:
+        """
+        Get optimization recommendations for multiple appointments.
+        
+        Args:
+            appointments: List of appointment data with patient preferences
+            
+        Returns:
+            List of optimization recommendations
+        """
+        recommendations = []
+        
+        for appt_data in appointments:
+            try:
+                # Get patient preferences
+                patient_id = appt_data.get('patient_id')
+                doctor = appt_data.get('doctor')
+                procedure = appt_data.get('procedure')
+                requested_time = appt_data.get('requested_time')
+                preferences = appt_data.get('preferences', {})
+                
+                # Find optimal slot using existing method
+                optimal_slot = self._find_optimal_slot(doctor, procedure, requested_time)
+                
+                if optimal_slot and optimal_slot != requested_time:
+                    # Calculate improvement metrics
+                    wait_reduction = self._estimate_wait_reduction(doctor, optimal_slot, requested_time)
+                    time_diff = abs((optimal_slot - requested_time).total_seconds() / 60)
+                    
+                    recommendation = {
+                        'patient_id': patient_id,
+                        'original_time': requested_time,
+                        'recommended_time': optimal_slot,
+                        'time_difference_minutes': int(time_diff),
+                        'estimated_wait_reduction_minutes': wait_reduction,
+                        'optimization_score': self._calculate_optimization_score(time_diff, wait_reduction),
+                        'reasons': self._get_optimization_reasons(doctor, optimal_slot, requested_time)
+                    }
+                    
+                    recommendations.append(recommendation)
+                    
+            except Exception as e:
+                logger.error(f"Error generating optimization recommendation: {e}")
+                continue
+                
+        return recommendations
+    
+    def _get_optimization_reasons(self, doctor: str, optimal_slot: datetime,
+                                 original_slot: datetime) -> List[str]:
+        """
+        Get reasons why the optimal slot was recommended.
+        
+        Args:
+            doctor: Doctor identifier
+            optimal_slot: Recommended time slot
+            original_slot: Original requested time
+            
+        Returns:
+            List of reasons for optimization
+        """
+        reasons = []
+        
+        # Check doctor workload
+        try:
+            day_appointments = Appointment.objects.filter(
+                doctor=doctor,
+                scheduled_at__date=optimal_slot.date(),
+                status__in=['pending', 'confirmed']
+            ).count()
+            
+            doctor_obj = Doctor.objects.get(name=doctor)
+            workload_ratio = day_appointments / doctor_obj.max_daily_appointments
+            
+            if workload_ratio < 0.5:
+                reasons.append(f"Doctor has lighter schedule on {optimal_slot.strftime('%A, %B %d')}")
+            elif workload_ratio < 0.7:
+                reasons.append("Doctor schedule is more balanced")
+        except Doctor.DoesNotExist:
+            pass
+        
+        # Check time of day (typically morning slots have shorter waits)
+        if optimal_slot.hour < 11 and original_slot.hour >= 14:
+            reasons.append("Morning appointment typically has shorter wait times")
+        elif optimal_slot.hour < 14 and original_slot.hour >= 14:
+            reasons.append("Earlier appointment time preferred")
+        
+        # Check day of week (typically less busy days)
+        optimal_weekday = optimal_slot.weekday()
+        if optimal_weekday == 0:  # Monday is often less busy
+            reasons.append("Monday typically has more availability")
+        
+        if not reasons:
+            reasons.append("AI optimization algorithm determined this as best time")
+            
+        return reasons
 
     def optimize_schedule(self, appointments: List[Dict]) -> List[Dict]:
         """
