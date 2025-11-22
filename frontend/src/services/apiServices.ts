@@ -135,3 +135,83 @@ export class HealthService {
     return apiClient.get('/health/');
   }
 }
+// Phase 2 Services
+
+import { 
+  Doctor, 
+  ProcedureType, 
+  MedicalTerm, 
+  AvailableSlotsRequest, 
+  AvailableSlotsResponse,
+  OptimizeSchedulingRequest,
+  OptimizeSchedulingResponse,
+  WaitlistAddRequest,
+  WaitlistAddResponse,
+  WaitlistProcessResponse,
+  ReminderScheduleRequest,
+  ReminderScheduleResponse,
+  ApiResponse
+} from '../types';
+
+export class DoctorService {
+  static async getAll(): Promise<Doctor[]> {
+    const response = await apiClient.get<ApiResponse<Doctor>>('/doctors/');
+    return response.results;
+  }
+}
+
+export class ProcedureTypeService {
+  static async getAll(): Promise<ProcedureType[]> {
+    const response = await apiClient.get<ApiResponse<ProcedureType>>('/api/procedure-types/');
+    return response.results;
+  }
+
+  static async search(query: string, lang: string = 'en'): Promise<ProcedureType[]> {
+    const response = await apiClient.get<{results: ProcedureType[]}>(`/api/procedure-types/search/?q=${encodeURIComponent(query)}&lang=${lang}`);
+    return response.results;
+  }
+}
+
+export class MedicalTermsService {
+  static async list(category?: string): Promise<MedicalTerm[]> {
+    const params = category ? { category } : {};
+    const response = await apiClient.get<ApiResponse<MedicalTerm>>('/api/medical-terms/', params);
+    return response.results;
+  }
+
+  static async search(query: string, lang: string = 'en'): Promise<MedicalTerm[]> {
+    const response = await apiClient.get<{results: MedicalTerm[]}>(`/api/medical-terms/search/?q=${encodeURIComponent(query)}&lang=${lang}`);
+    return response.results;
+  }
+
+  static async getCategories(): Promise<string[]> {
+    const response = await apiClient.get<{categories: string[]}>('/api/medical-terms/categories/');
+    return response.categories;
+  }
+}
+
+export class SchedulingService {
+  static async getAvailableSlots(data: AvailableSlotsRequest): Promise<AvailableSlotsResponse> {
+    return apiClient.post<AvailableSlotsResponse>('/api/scheduling/available-slots/', data);
+  }
+
+  static async optimizeScheduling(data: OptimizeSchedulingRequest): Promise<OptimizeSchedulingResponse> {
+    return apiClient.post<OptimizeSchedulingResponse>('/api/scheduling/optimize/', data);
+  }
+}
+
+export class WaitlistService {
+  static async addToWaitlist(data: WaitlistAddRequest): Promise<WaitlistAddResponse> {
+    return apiClient.post<WaitlistAddResponse>('/api/waitlist/add/', data);
+  }
+
+  static async processNotifications(): Promise<WaitlistProcessResponse> {
+    return apiClient.post<WaitlistProcessResponse>('/api/waitlist/process_notifications/');
+  }
+}
+
+export class RemindersService {
+  static async scheduleReminder(data: ReminderScheduleRequest): Promise<ReminderScheduleResponse> {
+    return apiClient.post<ReminderScheduleResponse>('/api/reminders/schedule/', data);
+  }
+}

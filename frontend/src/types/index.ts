@@ -134,3 +134,114 @@ export const CHANNELS = [
   { value: 'sms', label: 'SMS', icon: '📱' },
   { value: 'phone', label: 'Phone', icon: '📞' },
 ];
+// Phase 2 API Types
+
+export interface Doctor {
+  id: number;
+  name: string;
+  specialization: string;
+  email: string;
+  phone: string;
+  is_active: boolean;
+  max_daily_appointments: number;
+  average_appointment_duration: string;
+  created_at: string;
+}
+
+export interface ProcedureType {
+  id: number;
+  name: string;
+  name_ko: string;
+  name_zh: string;
+  name_ja: string;
+  description: string;
+  estimated_duration: string;
+  requires_equipment: string;
+  preparation_time: string;
+  recovery_time: string;
+}
+
+export interface MedicalTerm {
+  id: number;
+  term_en: string;
+  term_ko: string;
+  term_zh: string;
+  term_ja: string;
+  category: string;
+  description: string;
+  usage_count: number;
+  accuracy_rating: number;
+  created_at: string;
+}
+
+export interface AvailableSlotsRequest {
+  doctor_id: number;
+  start_date: string;
+  end_date: string;
+  preferred_time?: 'morning' | 'afternoon' | 'evening' | 'any';
+}
+
+export interface AvailableSlotsResponse {
+  doctor_id: number;
+  doctor_name: string;
+  available_slots: string[];
+  total_slots: number;
+}
+
+export interface OptimizeSchedulingRequest {
+  patient_id: number;
+  doctor_id: number;
+  procedure_type_id: number;
+  requested_time: string;
+  preferences?: {
+    preferred_time?: 'morning' | 'afternoon' | 'evening';
+  };
+}
+
+export interface SchedulingOptimization {
+  patient_id: number;
+  doctor: string;
+  procedure: string;
+  original_time: string;
+  optimized_time: string;
+  time_difference_minutes: number;
+  wait_time_reduction_minutes: number;
+  optimization_score: number;
+}
+
+export interface OptimizeSchedulingResponse {
+  success: boolean;
+  optimization: SchedulingOptimization;
+}
+
+export interface WaitlistAddRequest {
+  patient_id: number;
+  doctor_id: number;
+  procedure_type_id: number;
+  preferred_date: string;
+  preferred_time_start: string;
+  preferred_time_end: string;
+}
+
+export interface WaitlistAddResponse {
+  success: boolean;
+  waitlist_id: number;
+  position: number;
+  priority_score: number;
+}
+
+export interface WaitlistProcessResponse {
+  success: boolean;
+  notifications_sent: number;
+}
+
+export interface ReminderScheduleRequest {
+  appointment_id: number;
+  hours_before: number;
+}
+
+export interface ReminderScheduleResponse {
+  success: boolean;
+  appointment_id: number;
+  hours_before: number;
+}

@@ -1,10 +1,16 @@
 import React, { useState } from 'react'
-import { 
-  useAppointments, 
+import {
+  useAppointments,
   usePatients,
   useCreateAppointment,
   useUpdateAppointment,
-  useDeleteAppointment
+  useDeleteAppointment,
+  useDoctors,
+  useProcedureTypes,
+  useGetAvailableSlots,
+  useOptimizeScheduling,
+  useAddToWaitlist,
+  useProcessWaitlistNotifications
 } from '../hooks/useApi'
 import { 
   Calendar,
@@ -21,7 +27,7 @@ import {
   Search
 } from 'lucide-react'
 import { formatDate, getStatusColor, formatRelativeTime } from '../utils/helpers'
-import { Appointment, AppointmentFormData } from '../types'
+import { Appointment, AppointmentFormData, Doctor, ProcedureType, AvailableSlotsRequest, OptimizeSchedulingRequest, WaitlistAddRequest } from '../types'
 
 const Appointments: React.FC = () => {
   const [showForm, setShowForm] = useState(false)
@@ -34,6 +40,38 @@ const Appointments: React.FC = () => {
   const [formData, setFormData] = useState<AppointmentFormData>({
     patient_id: 0,
     doctor: '',
+  // Phase 2 state
+  const [showAvailableSlotsModal, setShowAvailableSlotsModal] = useState(false);
+  const [availableSlotsForm, setAvailableSlotsForm] = useState<AvailableSlotsRequest>({
+    doctor_id: 0,
+    start_date: '',
+    end_date: '',
+  const { data: doctors = [] } = useDoctors();
+  const { data: procedureTypes = [] } = useProcedureTypes();
+  const availableSlotsMutation = useGetAvailableSlots();
+  const optimizeMutation = useOptimizeScheduling();
+  const addWaitlistMutation = useAddToWaitlist();
+  const processNotificationsMutation = useProcessWaitlistNotifications();
+    preferred_time: 'any'
+  });
+  const [availableSlots, setAvailableSlots] = useState<string[]>([]);
+  const [showOptimizeModal, setShowOptimizeModal] = useState(false);
+  const [optimizeForm, setOptimizeForm] = useState<OptimizeSchedulingRequest>({
+    patient_id: 0,
+    doctor_id: 0,
+    procedure_type_id: 0,
+    requested_time: ''
+  });
+  const [showWaitlistModal, setShowWaitlistModal] = useState(false);
+  const [waitlistForm, setWaitlistForm] = useState<WaitlistAddRequest>({
+    patient_id: 0,
+    doctor_id: 0,
+    procedure_type_id: 0,
+    preferred_date: '',
+    preferred_time_start: '',
+    preferred_time_end: ''
+  });
+  const [error, setError] = useState('');
     procedure: '',
     scheduled_at: '',
     notes: ''
@@ -296,6 +334,35 @@ const Appointments: React.FC = () => {
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Notes (Optional)
           </label>
+
+const AvailableSlotsModal: React.FC = () => (
+  <div 
+    className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" 
+    onClick={() => setShowAvailableSlotsModal(false)}
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="available-slots-title"
+  >
+    <div 
+      className="bg-white rounded-xl shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto" 
+      onClick={(e) => e.stopPropagation()}
+    >
+      <div className="p-6 border-b">
+        <h3 id="available-slots-title" className="text-lg font-semibold text-gray-900">
+          Find Available Slots
+        </h3>
+      </div>
+      <div className="p-6">
+        <form 
+          onSubmit={(e) => {
+            e.preventDefault();
+            if (availableSlotsForm.doctor_id === 0) {
+              setError('Please select a doctor');
+              return;
+            }
+            setError('');
+            availableSlotsMutation.mutate(availableSlotsForm, {
+              onSuccess
           <textarea
             value={formData.notes}
             onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
@@ -354,13 +421,47 @@ const Appointments: React.FC = () => {
             <h1 className="text-2xl font-bold text-gray-900">Appointments</h1>
             <p className="text-gray-600">Manage patient appointments and scheduling</p>
           </div>
-          <button
-            onClick={() => setShowForm(!showForm)}
-            className="btn-primary"
-          >
-            <Plus className="h-4 w-4 mr-2" />
-            New Appointment
-          </button>
+          <div className="flex items-center space-x-2">
+            <button
+              onClick={() => setShowForm(!showForm)}
+              className="btn-primary"
+            >
+              <Plus className="h-4 w-4 mr-2" />
+              New Appointment
+            </button>
+            <button
+              onClick={() => setShowAvailableSlotsModal(true)}
+              className="btn-secondary"
+              disabled={availableSlotsMutation.isLoading}
+            >
+              <Clock className="h-4 w-4 mr-2" />
+              Available Slots
+            </button>
+            <button
+              onClick={() => setShowOptimizeModal(true)}
+              className="btn-secondary"
+              disabled={optimizeMutation.isLoading}
+            >
+              <TrendingUp className="h-4 w-4 mr-2" />
+              Optimize
+            </button>
+            <button
+              onClick={() => setShowWaitlistModal(true)}
+              className="btn-secondary"
+              disabled={addWaitlistMutation.isLoading}
+            >
+              <Users className="h-4 w-4 mr-2" />
+              Waitlist
+            </button>
+            <button
+              onClick={() => processNotificationsMutation.mutate()}
+              className="btn-primary"
+              disabled={processNotificationsMutation.isLoading}
+            >
+              <Bell className="h-4 w-4 mr-2" />
+              Process Notifications
+            </button>
+          </div>
         </div>
       </div>
 

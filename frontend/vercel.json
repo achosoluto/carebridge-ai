@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "https://carebridge-backend.railway.app/api/$1"
+    }
+  ]
+}

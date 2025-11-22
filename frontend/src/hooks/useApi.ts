@@ -7,6 +7,14 @@ import {
   SystemMetricsService,
   MessageProcessorService 
 } from '../services/apiServices';
+import { 
+  DoctorService,
+  ProcedureTypeService,
+  MedicalTermsService,
+  SchedulingService,
+  WaitlistService,
+  RemindersService
+} from '../services/apiServices';
 import { Patient, Message, Appointment, SystemMetricsSummary } from '../types';
 
 // Patient hooks
@@ -226,3 +234,61 @@ export const useLiveMessages = (patientId?: number) => {
     },
   };
 };
+
+
+// Phase 2 Hooks
+
+// Lists
+export const useDoctors = () => {
+  return useQuery('doctors', DoctorService.getAll);
+};
+
+export const useProcedureTypes = () => {
+  return useQuery('procedureTypes', ProcedureTypeService.getAll);
+};
+
+export const useMedicalTermsCategories = () => {
+  return useQuery('medicalTermsCategories', MedicalTermsService.getCategories);
+};
+
+export const useMedicalTermsSearch = (query: string) => {
+  return useQuery({
+    queryKey: ['medicalTermsSearch', query],
+    queryFn: () => MedicalTermsService.search(query),
+    enabled: !!query && query.length > 2,
+  });
+};
+
+// Mutations
+export const useGetAvailableSlots = () => {
+  return useMutation(SchedulingService.getAvailableSlots);
+};
+
+export const useOptimizeScheduling = () => {
+  const queryClient = useQueryClient();
+  return useMutation(SchedulingService.optimizeScheduling, {
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['appointments'] });
+    },
+  });
+};
+
+export const useAddToWaitlist = () => {
+  const queryClient = useQueryClient();
+  return useMutation(WaitlistService.addToWaitlist, {
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['appointments'] });
+    },
+  });
+};
+
+export const useProcessWaitlistNotifications = () => {
+  const queryClient = useQueryClient();
+  return useMutation(WaitlistService.processNotifications);
+};
+
+export const useScheduleReminder = () => {
+  const queryClient = useQueryClient();
+  return useMutation(RemindersService.scheduleReminder, {
+    onSuccess: () => {
+      queryClient.invalidateQueries({
