@@ -80,24 +80,16 @@ ASGI_APPLICATION = 'config.asgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 # Use PostgreSQL if DB_NAME is set, otherwise fallback to SQLite for development
-db_name = config('DB_NAME', default=None)
-if db_name:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': db_name,
-            'USER': config('DB_USER', default='carebridge_user'),
-            'PASSWORD': config('DB_PASSWORD', default='carebridge_pass'),
-            'HOST': config('DB_HOST', default='localhost'),
-            'PORT': config('DB_PORT', default='5432'),
-            'OPTIONS': {
-                'connect_timeout': 10,
-            },
-            'CONN_MAX_AGE': 600,  # Connection pooling for performance
-        }
-    }
-else:
-    # SQLite for development
+# Database
+# https://docs.djangoproject.com/en/5.2/ref/settings/#databases
+import dj_database_url
+
+DATABASES = {
+    'default': dj_database_url.config(
+        default='sqlite:///' + str(BASE_DIR / 'db.sqlite3'),
+        conn_max_age=600
+    )
+}
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
