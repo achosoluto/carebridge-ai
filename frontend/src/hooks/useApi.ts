@@ -291,4 +291,7 @@ export const useScheduleReminder = () => {
   const queryClient = useQueryClient();
   return useMutation(RemindersService.scheduleReminder, {
     onSuccess: () => {
-      queryClient.invalidateQueries({
+      queryClient.invalidateQueries({ queryKey: ['appointments'] });
+    },
+  });
+};

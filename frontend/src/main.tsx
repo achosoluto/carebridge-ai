@@ -17,12 +17,17 @@ const queryClient = new QueryClient({
   },
 })
 
+console.log('main.tsx is loading - with full app')
+console.log('BASE_URL:', '/static/')
+
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
+      <BrowserRouter basename="/static/">
         <App />
       </BrowserRouter>
     </QueryClientProvider>
   </React.StrictMode>,
 )
+
+console.log('App rendered!')

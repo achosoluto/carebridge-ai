@@ -12,7 +12,7 @@ import {
   useAddToWaitlist,
   useProcessWaitlistNotifications
 } from '../hooks/useApi'
-import { 
+import {
   Calendar,
   Plus,
   Clock,
@@ -40,18 +40,17 @@ const Appointments: React.FC = () => {
   const [formData, setFormData] = useState<AppointmentFormData>({
     patient_id: 0,
     doctor: '',
+    procedure: '',
+    scheduled_at: '',
+    notes: ''
+  })
+
   // Phase 2 state
   const [showAvailableSlotsModal, setShowAvailableSlotsModal] = useState(false);
   const [availableSlotsForm, setAvailableSlotsForm] = useState<AvailableSlotsRequest>({
     doctor_id: 0,
     start_date: '',
     end_date: '',
-  const { data: doctors = [] } = useDoctors();
-  const { data: procedureTypes = [] } = useProcedureTypes();
-  const availableSlotsMutation = useGetAvailableSlots();
-  const optimizeMutation = useOptimizeScheduling();
-  const addWaitlistMutation = useAddToWaitlist();
-  const processNotificationsMutation = useProcessWaitlistNotifications();
     preferred_time: 'any'
   });
   const [availableSlots, setAvailableSlots] = useState<string[]>([]);
@@ -72,17 +71,19 @@ const Appointments: React.FC = () => {
     preferred_time_end: ''
   });
   const [error, setError] = useState('');
-    procedure: '',
-    scheduled_at: '',
-    notes: ''
-  })
 
   // Fetch data
   const { data: appointments = [], isLoading: appointmentsLoading } = useAppointments()
   const { data: patients = [] } = usePatients()
+  const { data: doctors = [] } = useDoctors();
+  const { data: procedureTypes = [] } = useProcedureTypes();
   const createMutation = useCreateAppointment()
   const updateMutation = useUpdateAppointment()
   const deleteMutation = useDeleteAppointment()
+  const availableSlotsMutation = useGetAvailableSlots();
+  const optimizeMutation = useOptimizeScheduling();
+  const addWaitlistMutation = useAddToWaitlist();
+  const processNotificationsMutation = useProcessWaitlistNotifications();
 
   // Filter appointments
   const filteredAppointments = React.useMemo(() => {
@@ -90,7 +91,7 @@ const Appointments: React.FC = () => {
 
     // Search filter
     if (searchTerm) {
-      filtered = filtered.filter(apt => 
+      filtered = filtered.filter(apt =>
         apt.patient_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         apt.doctor.toLowerCase().includes(searchTerm.toLowerCase()) ||
         apt.procedure.toLowerCase().includes(searchTerm.toLowerCase())
@@ -120,7 +121,7 @@ const Appointments: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    
+
     try {
       if (editingAppointment) {
         await updateMutation.mutateAsync({
@@ -130,7 +131,7 @@ const Appointments: React.FC = () => {
       } else {
         await createMutation.mutateAsync(formData)
       }
-      
+
       setShowForm(false)
       setEditingAppointment(null)
       setFormData({
@@ -197,33 +198,33 @@ const Appointments: React.FC = () => {
             </h3>
             {getStatusIcon(appointment.status)}
           </div>
-          
+
           <div className="space-y-2">
             <div className="flex items-center space-x-2">
               <User className="h-4 w-4 text-gray-400" />
               <span className="text-sm text-gray-600">Dr. {appointment.doctor}</span>
             </div>
-            
+
             <div className="flex items-center space-x-2">
               <Calendar className="h-4 w-4 text-gray-400" />
               <span className="text-sm text-gray-600">{formatDate(appointment.scheduled_at)}</span>
             </div>
-            
+
             <div className="flex items-center space-x-2">
               <AlertCircle className="h-4 w-4 text-gray-400" />
               <span className="text-sm text-gray-600">{appointment.procedure}</span>
             </div>
-            
+
             {appointment.notes && (
               <p className="text-sm text-gray-600 mt-2">{appointment.notes}</p>
             )}
           </div>
-          
+
           <div className="flex items-center justify-between mt-4">
             <span className={`status-indicator ${getStatusColor(appointment.status)}`}>
               {appointment.status.charAt(0).toUpperCase() + appointment.status.slice(1)}
             </span>
-            
+
             <div className="flex items-center space-x-2">
               <select
                 value={appointment.status}
@@ -237,14 +238,14 @@ const Appointments: React.FC = () => {
                 <option value="cancelled">Cancelled</option>
                 <option value="no_show">No Show</option>
               </select>
-              
+
               <button
                 onClick={() => handleEdit(appointment)}
                 className="p-1 text-gray-400 hover:text-healthcare-primary"
               >
                 <Edit className="h-4 w-4" />
               </button>
-              
+
               <button
                 onClick={() => handleDelete(appointment.id)}
                 className="p-1 text-gray-400 hover:text-red-600"
@@ -264,7 +265,7 @@ const Appointments: React.FC = () => {
       <h3 className="text-lg font-semibold text-gray-900 mb-4">
         {editingAppointment ? 'Edit Appointment' : 'Schedule New Appointment'}
       </h3>
-      
+
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
@@ -285,7 +286,7 @@ const Appointments: React.FC = () => {
               ))}
             </select>
           </div>
-          
+
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Doctor
@@ -300,7 +301,7 @@ const Appointments: React.FC = () => {
             />
           </div>
         </div>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -315,7 +316,7 @@ const Appointments: React.FC = () => {
               required
             />
           </div>
-          
+
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Date & Time
@@ -329,40 +330,11 @@ const Appointments: React.FC = () => {
             />
           </div>
         </div>
-        
+
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Notes (Optional)
           </label>
-
-const AvailableSlotsModal: React.FC = () => (
-  <div 
-    className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" 
-    onClick={() => setShowAvailableSlotsModal(false)}
-    role="dialog"
-    aria-modal="true"
-    aria-labelledby="available-slots-title"
-  >
-    <div 
-      className="bg-white rounded-xl shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto" 
-      onClick={(e) => e.stopPropagation()}
-    >
-      <div className="p-6 border-b">
-        <h3 id="available-slots-title" className="text-lg font-semibold text-gray-900">
-          Find Available Slots
-        </h3>
-      </div>
-      <div className="p-6">
-        <form 
-          onSubmit={(e) => {
-            e.preventDefault();
-            if (availableSlotsForm.doctor_id === 0) {
-              setError('Please select a doctor');
-              return;
-            }
-            setError('');
-            availableSlotsMutation.mutate(availableSlotsForm, {
-              onSuccess
           <textarea
             value={formData.notes}
             onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
@@ -371,7 +343,7 @@ const AvailableSlotsModal: React.FC = () => (
             placeholder="Additional notes..."
           />
         </div>
-        
+
         <div className="flex items-center space-x-3">
           <button
             type="submit"
@@ -404,10 +376,9 @@ const AvailableSlotsModal: React.FC = () => (
 
   if (appointmentsLoading) {
     return (
-      <div className="px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-center items-center h-64">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-healthcare-primary"></div>
-        </div>
+      <div className="px-4 sm:px-6 lg:px-8">\n        <div className="flex justify-center items-center h-64">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-healthcare-primary"></div>
+      </div>
       </div>
     )
   }
@@ -483,7 +454,7 @@ const AvailableSlotsModal: React.FC = () => (
               />
             </div>
           </div>
-          
+
           <div>
             <select
               value={statusFilter}
@@ -498,7 +469,7 @@ const AvailableSlotsModal: React.FC = () => (
               <option value="no_show">No Show</option>
             </select>
           </div>
-          
+
           <div>
             <select
               value={dateFilter}
@@ -540,21 +511,21 @@ const AvailableSlotsModal: React.FC = () => (
             <div className="text-2xl font-bold text-healthcare-primary">{appointments.length}</div>
             <div className="text-sm text-gray-600">Total Appointments</div>
           </div>
-          
+
           <div className="card text-center">
             <div className="text-2xl font-bold text-green-600">
               {appointments.filter(a => a.status === 'confirmed').length}
             </div>
             <div className="text-sm text-gray-600">Confirmed</div>
           </div>
-          
+
           <div className="card text-center">
             <div className="text-2xl font-bold text-yellow-600">
               {appointments.filter(a => a.status === 'pending').length}
             </div>
             <div className="text-sm text-gray-600">Pending</div>
           </div>
-          
+
           <div className="card text-center">
             <div className="text-2xl font-bold text-blue-600">
               {appointments.filter(a => a.status === 'completed').length}
