@@ -1,0 +1,802 @@
+[
+  {
+    "id": 1,
+    "category": "symptoms",
+    "korean": "가슴이 아파요",
+    "expected_english": "I have chest pain",
+    "context": "Common symptom description",
+    "severity": "high"
+  },
+  {
+    "id": 2,
+    "category": "symptoms",
+    "korean": "머리가 아파요",
+    "expected_english": "I have a headache",
+    "context": "Common symptom",
+    "severity": "medium"
+  },
+  {
+    "id": 3,
+    "category": "symptoms",
+    "korean": "열이 나요",
+    "expected_english": "I have a fever",
+    "context": "Common symptom",
+    "severity": "medium"
+  },
+  {
+    "id": 4,
+    "category": "symptoms",
+    "korean": "기침이 나요",
+    "expected_english": "I have a cough",
+    "context": "Respiratory symptom",
+    "severity": "medium"
+  },
+  {
+    "id": 5,
+    "category": "symptoms",
+    "korean": "배가 아파요",
+    "expected_english": "I have a stomachache",
+    "context": "Abdominal pain",
+    "severity": "medium"
+  },
+  {
+    "id": 6,
+    "category": "scheduling",
+    "korean": "예약을 변경하고 싶어요",
+    "expected_english": "I want to change my appointment",
+    "context": "Appointment modification",
+    "severity": "low"
+  },
+  {
+    "id": 7,
+    "category": "scheduling",
+    "korean": "예약을 취소하고 싶어요",
+    "expected_english": "I want to cancel my appointment",
+    "context": "Appointment cancellation",
+    "severity": "low"
+  },
+  {
+    "id": 8,
+    "category": "scheduling",
+    "korean": "내일 예약 가능한가요?",
+    "expected_english": "Can I make an appointment for tomorrow?",
+    "context": "Appointment inquiry",
+    "severity": "low"
+  },
+  {
+    "id": 9,
+    "category": "questions",
+    "korean": "진료비가 얼마인가요?",
+    "expected_english": "How much is the consultation fee?",
+    "context": "Cost inquiry",
+    "severity": "low"
+  },
+  {
+    "id": 10,
+    "category": "questions",
+    "korean": "보험이 적용되나요?",
+    "expected_english": "Is insurance covered?",
+    "context": "Insurance inquiry",
+    "severity": "low"
+  },
+  {
+    "id": 11,
+    "category": "symptoms",
+    "korean": "숨쉬기가 힘들어요",
+    "expected_english": "I have difficulty breathing",
+    "context": "Respiratory distress",
+    "severity": "critical"
+  },
+  {
+    "id": 12,
+    "category": "symptoms",
+    "korean": "어지러워요",
+    "expected_english": "I feel dizzy",
+    "context": "Neurological symptom",
+    "severity": "medium"
+  },
+  {
+    "id": 13,
+    "category": "symptoms",
+    "korean": "구토가 나요",
+    "expected_english": "I am vomiting",
+    "context": "Gastrointestinal symptom",
+    "severity": "high"
+  },
+  {
+    "id": 14,
+    "category": "symptoms",
+    "korean": "설사를 해요",
+    "expected_english": "I have diarrhea",
+    "context": "Gastrointestinal symptom",
+    "severity": "medium"
+  },
+  {
+    "id": 15,
+    "category": "symptoms",
+    "korean": "목이 아파요",
+    "expected_english": "I have a sore throat",
+    "context": "Throat pain",
+    "severity": "low"
+  },
+  {
+    "id": 16,
+    "category": "medical_history",
+    "korean": "당뇨병이 있어요",
+    "expected_english": "I have diabetes",
+    "context": "Chronic condition",
+    "severity": "high"
+  },
+  {
+    "id": 17,
+    "category": "medical_history",
+    "korean": "고혈압이 있어요",
+    "expected_english": "I have high blood pressure",
+    "context": "Chronic condition",
+    "severity": "high"
+  },
+  {
+    "id": 18,
+    "category": "medical_history",
+    "korean": "천식이 있어요",
+    "expected_english": "I have asthma",
+    "context": "Respiratory condition",
+    "severity": "high"
+  },
+  {
+    "id": 19,
+    "category": "allergies",
+    "korean": "페니실린 알레르기가 있어요",
+    "expected_english": "I am allergic to penicillin",
+    "context": "Drug allergy",
+    "severity": "critical"
+  },
+  {
+    "id": 20,
+    "category": "allergies",
+    "korean": "땅콩 알레르기가 있어요",
+    "expected_english": "I am allergic to peanuts",
+    "context": "Food allergy",
+    "severity": "high"
+  },
+  {
+    "id": 21,
+    "category": "symptoms",
+    "korean": "팔에 통증이 있어요",
+    "expected_english": "I have pain in my arm",
+    "context": "Musculoskeletal pain",
+    "severity": "medium"
+  },
+  {
+    "id": 22,
+    "category": "symptoms",
+    "korean": "눈이 가려워요",
+    "expected_english": "My eyes itch",
+    "context": "Eye symptom",
+    "severity": "low"
+  },
+  {
+    "id": 23,
+    "category": "symptoms",
+    "korean": "콧물이 나요",
+    "expected_english": "I have a runny nose",
+    "context": "Cold/allergy symptom",
+    "severity": "low"
+  },
+  {
+    "id": 24,
+    "category": "symptoms",
+    "korean": "가려워요",
+    "expected_english": "I am itchy",
+    "context": "Skin symptom",
+    "severity": "medium"
+  },
+  {
+    "id": 25,
+    "category": "symptoms",
+    "korean": "메스꺼워요",
+    "expected_english": "I feel nauseous",
+    "context": "Gastrointestinal symptom",
+    "severity": "medium"
+  },
+  {
+    "id": 26,
+    "category": "scheduling",
+    "korean": "오늘 예약 확인해 주세요",
+    "expected_english": "Please confirm my appointment for today",
+    "context": "Appointment confirmation",
+    "severity": "low"
+  },
+  {
+    "id": 27,
+    "category": "scheduling",
+    "korean": "가장 빠른 예약 시간을 알려주세요",
+    "expected_english": "Please tell me the earliest available appointment",
+    "context": "Appointment inquiry",
+    "severity": "low"
+  },
+  {
+    "id": 28,
+    "category": "scheduling",
+    "korean": "점심시간에 예약 가능한가요?",
+    "expected_english": "Is an appointment available during lunch?",
+    "context": "Appointment timing",
+    "severity": "low"
+  },
+  {
+    "id": 29,
+    "category": "scheduling",
+    "korean": "내일 오전 예약 도와주세요",
+    "expected_english": "Please help me book a morning appointment tomorrow",
+    "context": "Appointment booking",
+    "severity": "low"
+  },
+  {
+    "id": 30,
+    "category": "scheduling",
+    "korean": "예약 시간 변경해 주세요",
+    "expected_english": "Please change my appointment time",
+    "context": "Appointment modification",
+    "severity": "low"
+  },
+  {
+    "id": 31,
+    "category": "questions",
+    "korean": "약을 처방해 주시나요?",
+    "expected_english": "Will you prescribe medication?",
+    "context": "Medication inquiry",
+    "severity": "low"
+  },
+  {
+    "id": 32,
+    "category": "questions",
+    "korean": "검사가 필요한가요?",
+    "expected_english": "Do I need tests?",
+    "context": "Procedure inquiry",
+    "severity": "medium"
+  },
+  {
+    "id": 33,
+    "category": "questions",
+    "korean": "통증이 얼마나 지속될까요?",
+    "expected_english": "How long will the pain last?",
+    "context": "Prognosis inquiry",
+    "severity": "low"
+  },
+  {
+    "id": 34,
+    "category": "questions",
+    "korean": "복용 중인 약이 있어요",
+    "expected_english": "I am taking medication",
+    "context": "Medication disclosure",
+    "severity": "high"
+  },
+  {
+    "id": 35,
+    "category": "questions",
+    "korean": "다음 방문은 언제인가요?",
+    "expected_english": "When is my next visit?",
+    "context": "Follow-up inquiry",
+    "severity": "low"
+  },
+  {
+    "id": 36,
+    "category": "medical_history",
+    "korean": "심장병이 있어요",
+    "expected_english": "I have heart disease",
+    "context": "Cardiac condition",
+    "severity": "high"
+  },
+  {
+    "id": 37,
+    "category": "medical_history",
+    "korean": "간 질환이 있어요",
+    "expected_english": "I have liver disease",
+    "context": "Hepatic condition",
+    "severity": "high"
+  },
+  {
+    "id": 38,
+    "category": "medical_history",
+    "korean": "암 병력이 있어요",
+    "expected_english": "I have a history of cancer",
+    "context": "Oncological history",
+    "severity": "high"
+  },
+  {
+    "id": 39,
+    "category": "medical_history",
+    "korean": "과거 수술 경험이 있어요",
+    "expected_english": "I have had previous surgery",
+    "context": "Surgical history",
+    "severity": "high"
+  },
+  {
+    "id": 40,
+    "category": "medical_history",
+    "korean": "임신 중입니다",
+    "expected_english": "I am pregnant",
+    "context": "Reproductive status",
+    "severity": "high"
+  },
+  {
+    "id": 41,
+    "category": "allergies",
+    "korean": "아spirin 알레르기가 있어요",
+    "expected_english": "I am allergic to aspirin",
+    "context": "Drug allergy",
+    "severity": "high"
+  },
+  {
+    "id": 42,
+    "category": "allergies",
+    "korean": "해산물 알레르기가 있어요",
+    "expected_english": "I am allergic to seafood",
+    "context": "Food allergy",
+    "severity": "high"
+  },
+  {
+    "id": 43,
+    "category": "allergies",
+    "korean": "라텍스 알레르기가 있어요",
+    "expected_english": "I am allergic to latex",
+    "context": "Environmental allergy",
+    "severity": "high"
+  },
+  {
+    "id": 44,
+    "category": "allergies",
+    "korean": "항생제 알레르기가 있어요",
+    "expected_english": "I am allergic to antibiotics",
+    "context": "Drug allergy",
+    "severity": "critical"
+  },
+  {
+    "id": 45,
+    "category": "allergies",
+    "korean": "달걀 알레르기가 있어요",
+    "expected_english": "I am allergic to eggs",
+    "context": "Food allergy",
+    "severity": "high"
+  },
+  {
+    "id": 46,
+    "category": "emergency",
+    "korean": "응급 상황입니다",
+    "expected_english": "This is an emergency",
+    "context": "Emergency declaration",
+    "severity": "critical"
+  },
+  {
+    "id": 47,
+    "category": "emergency",
+    "korean": "구급차가 필요해요",
+    "expected_english": "I need an ambulance",
+    "context": "Emergency service request",
+    "severity": "critical"
+  },
+  {
+    "id": 48,
+    "category": "emergency",
+    "korean": "아기가 아파요",
+    "expected_english": "My baby is sick",
+    "context": "Pediatric emergency",
+    "severity": "high"
+  },
+  {
+    "id": 49,
+    "category": "emergency",
+    "korean": "실신 직전이에요",
+    "expected_english": "I'm about to faint",
+    "context": "Acute symptom",
+    "severity": "critical"
+  },
+  {
+    "id": 50,
+    "category": "emergency",
+    "korean": "심한 복통이 있어요",
+    "expected_english": "I have severe abdominal pain",
+    "context": "Acute symptom",
+    "severity": "critical"
+  },
+  {
+    "id": 51,
+    "category": "follow_up",
+    "korean": "약이 효과가 없어요",
+    "expected_english": "The medication isn't working",
+    "context": "Treatment effectiveness",
+    "severity": "medium"
+  },
+  {
+    "id": 52,
+    "category": "follow_up",
+    "korean": "증상이 나아지지 않아요",
+    "expected_english": "My symptoms aren't improving",
+    "context": "Treatment progress",
+    "severity": "medium"
+  },
+  {
+    "id": 53,
+    "category": "follow_up",
+    "korean": "부작용이 있어요",
+    "expected_english": "I have side effects",
+    "context": "Adverse reaction",
+    "severity": "high"
+  },
+  {
+    "id": 54,
+    "category": "follow_up",
+    "korean": "재진 예약하고 싶어요",
+    "expected_english": "I want to book a follow-up appointment",
+    "context": "Follow-up booking",
+    "severity": "low"
+  },
+  {
+    "id": 55,
+    "category": "follow_up",
+    "korean": "처방전 재발급 해주세요",
+    "expected_english": "Please reissue my prescription",
+    "context": "Prescription renewal",
+    "severity": "low"
+  },
+  {
+    "id": 56,
+    "category": "symptoms",
+    "korean": "식욕이 없어요",
+    "expected_english": "I have no appetite",
+    "context": "Gastrointestinal symptom",
+    "severity": "medium"
+  },
+  {
+    "id": 57,
+    "category": "symptoms",
+    "korean": "수면이 안 좋아요",
+    "expected_english": "I have trouble sleeping",
+    "context": "Sleep disorder symptom",
+    "severity": "medium"
+  },
+  {
+    "id": 58,
+    "category": "symptoms",
+    "korean": "피로감이 심해요",
+    "expected_english": "I feel very fatigued",
+    "context": "General symptom",
+    "severity": "medium"
+  },
+  {
+    "id": 59,
+    "category": "symptoms",
+    "korean": "식은땀이 나요",
+    "expected_english": "I am sweating cold sweat",
+    "context": "Autonomic symptom",
+    "severity": "high"
+  },
+  {
+    "id": 60,
+    "category": "symptoms",
+    "korean": "가래가 나와요",
+    "expected_english": "I am producing phlegm",
+    "context": "Respiratory symptom",
+    "severity": "medium"
+  },
+  {
+    "id": 61,
+    "category": "scheduling",
+    "korean": "내과 예약 도와주세요",
+    "expected_english": "Please help me book an internal medicine appointment",
+    "context": "Specialty booking",
+    "severity": "low"
+  },
+  {
+    "id": 62,
+    "category": "scheduling",
+    "korean": "치과 예약 가능한 시간 알려주세요",
+    "expected_english": "Please tell me available dental appointment times",
+    "context": "Specialty appointment inquiry",
+    "severity": "low"
+  },
+  {
+    "id": 63,
+    "category": "scheduling",
+    "korean": "주말 예약 가능한가요?",
+    "expected_english": "Are weekend appointments available?",
+    "context": "Appointment timing",
+    "severity": "low"
+  },
+  {
+    "id": 64,
+    "category": "scheduling",
+    "korean": "야간 진료 되나요?",
+    "expected_english": "Is after-hours care available?",
+    "context": "Emergency/after-hours care",
+    "severity": "medium"
+  },
+  {
+    "id": 65,
+    "category": "scheduling",
+    "korean": "즉시 진료 가능하나요?",
+    "expected_english": "Can I be seen immediately?",
+    "context": "Urgent care inquiry",
+    "severity": "medium"
+  },
+  {
+    "id": 66,
+    "category": "questions",
+    "korean": "예방접종 가능하나요?",
+    "expected_english": "Can I get vaccinated?",
+    "context": "Vaccination inquiry",
+    "severity": "low"
+  },
+  {
+    "id": 67,
+    "category": "questions",
+    "korean": "건강검진 예약 가능하나요?",
+    "expected_english": "Can I book a health checkup?",
+    "context": "Screening inquiry",
+    "severity": "low"
+  },
+  {
+    "id": 68,
+    "category": "questions",
+    "korean": "진단서 발급 가능하나요?",
+    "expected_english": "Can I get a medical certificate?",
+    "context": "Documentation inquiry",
+    "severity": "low"
+  },
+  {
+    "id": 69,
+    "category": "questions",
+    "korean": "복용 중인 약 알려드릴게요",
+    "expected_english": "I'll tell you about my current medications",
+    "context": "Medication disclosure",
+    "severity": "high"
+  },
+  {
+    "id": 70,
+    "category": "questions",
+    "korean": "과거 병력 알려드릴게요",
+    "expected_english": "I'll tell you about my medical history",
+    "context": "History disclosure",
+    "severity": "high"
+  },
+  {
+    "id": 71,
+    "category": "medical_history",
+    "korean": "에필леп시가 있어요",
+    "expected_english": "I have epilepsy",
+    "context": "Neurological condition",
+    "severity": "high"
+  },
+  {
+    "id": 72,
+    "category": "medical_history",
+    "korean": "결핵 병력이 있어요",
+    "expected_english": "I have a history of tuberculosis",
+    "context": "Infectious disease history",
+    "severity": "high"
+  },
+  {
+    "id": 73,
+    "category": "medical_history",
+    "korean": "알코올 중독 병력이 있어요",
+    "expected_english": "I have a history of alcohol addiction",
+    "context": "Substance use history",
+    "severity": "high"
+  },
+  {
+    "id": 74,
+    "category": "medical_history",
+    "korean": "우울증 치료 중입니다",
+    "expected_english": "I'm being treated for depression",
+    "context": "Mental health condition",
+    "severity": "high"
+  },
+  {
+    "id": 75,
+    "category": "medical_history",
+    "korean": "간경변증이 있어요",
+    "expected_english": "I have cirrhosis",
+    "context": "Hepatic condition",
+    "severity": "high"
+  },
+  {
+    "id": 76,
+    "category": "allergies",
+    "korean": "요오드 알레르기가 있어요",
+    "expected_english": "I am allergic to iodine",
+    "context": "Contrast agent allergy",
+    "severity": "high"
+  },
+  {
+    "id": 77,
+    "category": "allergies",
+    "korean": "조영제 알레르기가 있어요",
+    "expected_english": "I am allergic to contrast dye",
+    "context": "Imaging agent allergy",
+    "severity": "high"
+  },
+  {
+    "id": 78,
+    "category": "allergies",
+    "korean": "과일 알레르기가 있어요",
+    "expected_english": "I am allergic to fruits",
+    "context": "Food allergy",
+    "severity": "medium"
+  },
+  {
+    "id": 79,
+    "category": "allergies",
+    "korean": "곡물 알레르기가 있어요",
+    "expected_english": "I am allergic to grains",
+    "context": "Food allergy",
+    "severity": "medium"
+  },
+  {
+    "id": 80,
+    "category": "allergies",
+    "korean": "진통제 알레르기가 있어요",
+    "expected_english": "I am allergic to painkillers",
+    "context": "Drug allergy",
+    "severity": "high"
+  },
+  {
+    "id": 81,
+    "category": "emergency",
+    "korean": "심장 발작 의심 증상입니다",
+    "expected_english": "I have symptoms of a heart attack",
+    "context": "Cardiac emergency",
+    "severity": "critical"
+  },
+  {
+    "id": 82,
+    "category": "emergency",
+    "korean": "뇌졸중 증상일 수 있습니다",
+    "expected_english": "This may be stroke symptoms",
+    "context": "Neurological emergency",
+    "severity": "critical"
+  },
+  {
+    "id": 83,
+    "category": "emergency",
+    "korean": "심한 출혈이 있어요",
+    "expected_english": "I have severe bleeding",
+    "context": "Hemorrhage emergency",
+    "severity": "critical"
+  },
+  {
+    "id": 84,
+    "category": "emergency",
+    "korean": "의식이 흐려요",
+    "expected_english": "I am confused/disoriented",
+    "context": "Neurological emergency",
+    "severity": "critical"
+  },
+  {
+    "id": 85,
+    "category": "emergency",
+    "korean": "경련이 일어났어요",
+    "expected_english": "I had a seizure",
+    "context": "Neurological emergency",
+    "severity": "critical"
+  },
+  {
+    "id": 86,
+    "category": "follow_up",
+    "korean": "약 복용 후 이상 증상이 있어요",
+    "expected_english": "I have unusual symptoms after taking the medicine",
+    "context": "Adverse reaction reporting",
+    "severity": "high"
+  },
+  {
+    "id": 87,
+    "category": "follow_up",
+    "korean": "예전보다 증상이 더 심해졌어요",
+    "expected_english": "My symptoms are worse than before",
+    "context": "Treatment progression tracking",
+    "severity": "high"
+  },
+  {
+    "id": 88,
+    "category": "follow_up",
+    "korean": "치료 후 회복 중입니다",
+    "expected_english": "I'm recovering after treatment",
+    "context": "Recovery update",
+    "severity": "low"
+  },
+  {
+    "id": 89,
+    "category": "follow_up",
+    "korean": "검사 결과 문의합니다",
+    "expected_english": "I'm inquiring about test results",
+    "context": "Test result inquiry",
+    "severity": "medium"
+  },
+  {
+    "id": 90,
+    "category": "follow_up",
+    "korean": "재검査 필요 여부를 알고 싶어요",
+    "expected_english": "I want to know if I need a repeat test",
+    "context": "Test follow-up inquiry",
+    "severity": "medium"
+  },
+  {
+    "id": 91,
+    "category": "symptoms",
+    "korean": "시야에 이상이 있어요",
+    "expected_english": "I have vision problems",
+    "context": "Ophthalmological/neurological symptom",
+    "severity": "high"
+  },
+  {
+    "id": 92,
+    "category": "symptoms",
+    "korean": "청력에 문제가 있어요",
+    "expected_english": "I have hearing problems",
+    "context": "Audiological symptom",
+    "severity": "medium"
+  },
+  {
+    "id": 93,
+    "category": "symptoms",
+    "korean": "발음이 어려워요",
+    "expected_english": "I have difficulty speaking",
+    "context": "Speech/neurological symptom",
+    "severity": "high"
+  },
+  {
+    "id": 94,
+    "category": "symptoms",
+    "korean": "기억력이 떨어졌어요",
+    "expected_english": "My memory has declined",
+    "context": "Cognitive symptom",
+    "severity": "high"
+  },
+  {
+    "id": 95,
+    "category": "symptoms",
+    "korean": "팔다리에 마비 증상이 있어요",
+    "expected_english": "I have paralysis symptoms in my limbs",
+    "context": "Neurological symptom",
+    "severity": "critical"
+  },
+  {
+    "id": 96,
+    "category": "scheduling",
+    "korean": "가족 동반 가능 예약 도와주세요",
+    "expected_english": "Please help me book an appointment that allows family accompaniment",
+    "context": "Special accommodation request",
+    "severity": "low"
+  },
+  {
+    "id": 97,
+    "category": "scheduling",
+    "korean": "통역 서비스 필요한 예약 도와주세요",
+    "expected_english": "Please help me book an appointment with interpreter service",
+    "context": "Language service request",
+    "severity": "low"
+  },
+  {
+    "id": 98,
+    "category": "questions",
+    "korean": "처방전 외국에서 사용 가능한가요?",
+    "expected_english": "Is the prescription valid for use abroad?",
+    "context": "Prescription validity inquiry",
+    "severity": "low"
+  },
+  {
+    "id": 99,
+    "category": "questions",
+    "korean": "보험 청구 가능 병원 알려주세요",
+    "expected_english": "Please tell me hospitals where insurance claims are possible",
+    "context": "Insurance coverage inquiry",
+    "severity": "low"
+  },
+  {
+    "id": 100,
+    "category": "questions",
+    "korean": "의료비 영수증 발급해주세요",
+    "expected_english": "Please issue a medical expense receipt",
+    "context": "Documentation request",
+    "severity": "low"
+  }
+]

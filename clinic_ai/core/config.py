@@ -132,10 +132,10 @@ class MockConfigService(ConfigurationService):
 def create_config_service(use_mock: bool = False) -> ConfigurationService:
     """
     Factory function to create configuration service instance.
-    
+
     Args:
         use_mock: If True, returns mock service; otherwise returns real service
-    
+
     Returns:
         ConfigurationService instance
     """
@@ -143,3 +143,10 @@ def create_config_service(use_mock: bool = False) -> ConfigurationService:
         return MockConfigService()
     else:
         return DjangoConfigService()
+
+
+def get_config_service() -> ConfigurationService:
+    """
+    Get the default configuration service instance.
+    """
+    return DjangoConfigService()
