@@ -34,3 +34,15 @@ Traceback (most recent call last):
     raise TemplateDoesNotExist(", ".join(template_name_list), chain=chain)
 django.template.exceptions.TemplateDoesNotExist: index.html
 ERROR 2025-11-24 01:27:11,773 basehttp 88456 6127284224 "GET /favicon.ico HTTP/1.1" 500 83368
+INFO 2025-11-24 15:45:39,512 autoreload 93620 8532287680 Watching for file changes with StatReloader
+INFO 2025-11-24 22:54:57,936 autoreload 4820 8532287680 Watching for file changes with StatReloader
+INFO 2025-11-24 23:04:13,880 autoreload 4820 8532287680 /Users/anthonycho/Documents/GitHub/carebridge-ai/config/settings.py changed, reloading.
+INFO 2025-11-24 23:04:14,490 autoreload 5418 8532287680 Watching for file changes with StatReloader
+INFO 2025-11-24 23:04:17,045 autoreload 5418 8532287680 /Users/anthonycho/Documents/GitHub/carebridge-ai/config/settings.py changed, reloading.
+INFO 2025-11-24 23:04:17,446 autoreload 5431 8532287680 Watching for file changes with StatReloader
+INFO 2025-11-24 23:05:04,345 autoreload 5431 8532287680 /Users/anthonycho/Documents/GitHub/carebridge-ai/config/urls.py changed, reloading.
+INFO 2025-11-24 23:05:04,960 autoreload 5454 8532287680 Watching for file changes with StatReloader
+INFO 2025-11-24 23:05:34,310 autoreload 5454 8532287680 /Users/anthonycho/Documents/GitHub/carebridge-ai/config/urls.py changed, reloading.
+INFO 2025-11-24 23:05:34,920 autoreload 5489 8532287680 Watching for file changes with StatReloader
+INFO 2025-11-24 23:06:44,499 autoreload 5489 8532287680 /Users/anthonycho/Documents/GitHub/carebridge-ai/config/settings.py changed, reloading.
+INFO 2025-11-24 23:06:45,118 autoreload 5622 8532287680 Watching for file changes with StatReloader
