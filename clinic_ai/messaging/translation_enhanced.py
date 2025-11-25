@@ -264,7 +264,7 @@ class EnhancedTranslationService:
         self.detector = detector or SimpleLanguageDetector()
         self.cache = cache_service
 
-    def translate_message(self, text: str, target_lang: str, 
+    def translate_message(self, text: str, target_lang: str,
                          source_lang: Optional[str] = None,
                          message_id: Optional[int] = None) -> Dict[str, Any]:
         """
@@ -273,37 +273,60 @@ class EnhancedTranslationService:
         Returns:
             Dict containing translated text and metadata
         """
-        detected_lang = source_lang or self.detector.detect(text)
+        try:
+            detected_lang = source_lang or self.detector.detect(text)
 
-        # Skip translation if already in target language
-        if detected_lang == target_lang:
+            # Skip translation if already in target language
+            if detected_lang == target_lang:
+                return {
+                    'translated_text': text,
+                    'source_language': detected_lang,
+                    'target_language': target_lang,
+                    'skipped': True
+                }
+
+            # Validate input
+            if not text or not text.strip():
+                logger.warning("Empty text provided for translation")
+                return {
+                    'translated_text': text,
+                    'source_language': detected_lang,
+                    'target_language': target_lang,
+                    'skipped': True
+                }
+
+            # Translate using configured service
+            start_time = time.time()
+            # Check if the translator supports the message_id parameter
+            if hasattr(self.translator, '_save_translation_history'):
+                # EnhancedGoogleTranslateService with message_id support
+                translated_text = self.translator.translate(
+                    text, detected_lang, target_lang, message_id=message_id
+                )
+            else:
+                # Standard translator interface
+                translated_text = self.translator.translate(text, detected_lang, target_lang)
+
+            processing_time = time.time() - start_time
+
+            return {
+                'translated_text': translated_text,
+                'source_language': detected_lang,
+                'target_language': target_lang,
+                'processing_time_ms': int(processing_time * 1000),
+                'skipped': False
+            }
+        except Exception as e:
+            logger.error(f"Translation service error: {e}", exc_info=True)
+            # Return original text with error metadata
+            detected_lang = source_lang or self.detector.detect(text)
             return {
                 'translated_text': text,
                 'source_language': detected_lang,
                 'target_language': target_lang,
-                'skipped': True
+                'skipped': True,
+                'error': str(e)
             }
-
-        # Translate using configured service
-        start_time = time.time()
-        # Check if the translator supports the message_id parameter
-        if hasattr(self.translator, '_save_translation_history'):
-            # EnhancedGoogleTranslateService with message_id support
-            translated_text = self.translator.translate(
-                text, detected_lang, target_lang, message_id=message_id
-            )
-        else:
-            # Standard translator interface
-            translated_text = self.translator.translate(text, detected_lang, target_lang)
-        processing_time = time.time() - start_time
-
-        return {
-            'translated_text': translated_text,
-            'source_language': detected_lang,
-            'target_language': target_lang,
-            'processing_time_ms': int(processing_time * 1000),
-            'skipped': False
-        }
 
     def detect_language(self, text: str) -> str:
         """Detect language of text"""
