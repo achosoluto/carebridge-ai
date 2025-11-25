@@ -9,10 +9,10 @@ CareBridge AI bridges the communication gap in healthcare by seamlessly connecti
 
 ### MVP Features (F01-F04)
 
-- **🤖 F01: Multi-Channel AI Support** - AI-powered chatbots across KakaoTalk, WeChat, LINE, and SMS for seamless patient communication
-- **🌐 F02: Real-Time Two-Way Translation** - Instant translation between Korean, English, Chinese, and Japanese during conversations
-- **🎤 F03: AI Voice Agent** - Intelligent voice-based assistance for call handling and patient interactions
-- **📅 F04: Automated Scheduling Engine** - Smart appointment matching and calendar optimization
+- **🤖 F01: SMS-Based AI Support** - AI-powered chatbots via SMS for seamless patient communication (MVP focus)
+- **🌐 F02: Real-Time Two-Way Translation** - Instant translation between Korean and English during conversations (MVP focus)
+- **🎤 F03: AI Voice Agent** - [DEFERRED TO V2] Intelligent voice-based assistance for call handling and patient interactions
+- **📅 F04: Simple Appointment Booking** - Basic appointment booking with manual optimization (V1)
 
 ## 🏗️ Architecture
 
@@ -46,7 +46,7 @@ carebridge-ai/
 - **Database**: PostgreSQL
 - **Cache**: Redis with Celery
 - **AI**: OpenAI GPT-4, Google Translate, Azure Speech
-- **Communication**: KakaoTalk Business API, WeChat, LINE, Twilio
+- **Communication**: Twilio (SMS) for MVP
 - **Testing**: pytest with factory-boy and faker
 
 ## 🚀 Getting Started

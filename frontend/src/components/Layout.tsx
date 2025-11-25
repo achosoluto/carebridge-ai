@@ -20,6 +20,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const location = useLocation()
 
+  console.log('Layout - Current pathname:', location.pathname);
+  console.log('Layout - Children:', children);
+
   const navigation = [
     { name: 'Dashboard', href: '/staff/dashboard', icon: LayoutDashboard },
     { name: 'Messages', href: '/staff/messages', icon: MessageSquare },

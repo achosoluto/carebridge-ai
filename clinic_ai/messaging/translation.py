@@ -96,30 +96,18 @@ class SimpleLanguageDetector:
     def detect(self, text: str) -> str:
         """
         Detect language using character patterns.
-        Returns language code.
+        Returns language code for Korean or English.
         """
         if not text.strip():
             return 'ko'  # Default to Korean
 
         # Character pattern detection
-        if self._has_chinese_chars(text):
-            return 'zh'
-        elif self._has_japanese_chars(text):
-            return 'ja'
-        elif self._has_korean_chars(text):
+        if self._has_korean_chars(text):
             return 'ko'
         elif self._is_english_text(text):
             return 'en'
         else:
             return 'ko'  # Default fallback
-
-    def _has_chinese_chars(self, text: str) -> bool:
-        """Check for Chinese characters (simplified and traditional)"""
-        return any('\u4e00' <= char <= '\u9fff' for char in text)
-
-    def _has_japanese_chars(self, text: str) -> bool:
-        """Check for Japanese characters (Hiragana and Katakana)"""
-        return any('\u3040' <= char <= '\u309f' or '\u30a0' <= char <= '\u30ff' for char in text)
 
     def _has_korean_chars(self, text: str) -> bool:
         """Check for Korean characters"""
@@ -205,21 +193,13 @@ class FallbackTranslationService(TranslationService):
             'time': '시간',
             'consultation': '상담'
         },
-        ('zh', 'ko'): {
-            '你好': '안녕하세요',
-            '预约': '예약',
-            '费用': '비용',
-            '位置': '위치',
-            '时间': '시간',
-            '咨询': '상담'
-        },
-        ('ja', 'ko'): {
-            'こんにちは': '안녕하세요',
-            '予約': '예약',
-            '料金': '비용',
-            '場所': '위치',
-            '時間': '시간',
-            '相談': '상담'
+        ('ko', 'en'): {
+            '안녕하세요': 'hello',
+            '예약': 'appointment',
+            '비용': 'cost',
+            '위치': 'location',
+            '시간': 'time',
+            '상담': 'consultation'
         }
     }
 

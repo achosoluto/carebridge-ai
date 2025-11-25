@@ -30,6 +30,7 @@ import { formatDate, getStatusColor, formatRelativeTime } from '../utils/helpers
 import { Appointment, AppointmentFormData, Doctor, ProcedureType, AvailableSlotsRequest, OptimizeSchedulingRequest, WaitlistAddRequest } from '../types'
 
 const Appointments: React.FC = () => {
+  console.log('Rendering Appointments');
   const [showForm, setShowForm] = useState(false)
   const [editingAppointment, setEditingAppointment] = useState<Appointment | null>(null)
   const [searchTerm, setSearchTerm] = useState('')

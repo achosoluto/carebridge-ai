@@ -25,6 +25,7 @@ import { formatDate, getChannelIcon, getLanguageFlag, getLanguageName, getConfid
 import { Message } from '../types'
 
 const PatientDetails: React.FC = () => {
+  console.log('Rendering PatientDetails');
   const { patientId } = useParams<{ patientId: string }>()
   const navigate = useNavigate()
   const [newMessage, setNewMessage] = useState('')

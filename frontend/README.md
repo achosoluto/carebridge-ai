@@ -1,6 +1,6 @@
 # CareBridge AI Frontend
 
-React-based staff dashboard interface for the CareBridge AI healthcare platform. Provides real-time monitoring and management of patient communications across multiple channels (KakaoTalk, WeChat, LINE, SMS).
+React-based staff dashboard interface for the CareBridge AI healthcare platform. Provides real-time monitoring and management of patient communications via SMS (MVP focus).
 
 ## Features
 
@@ -11,7 +11,7 @@ React-based staff dashboard interface for the CareBridge AI healthcare platform.
 - **System Monitoring** - Track system health and performance metrics
 
 ### Technical Features
-- **Multi-language Support** - Korean, English, Chinese, Japanese
+- **Multi-language Support** - Korean, English (MVP focus)
 - **Real-time Updates** - Polling-based updates for live message monitoring
 - **Responsive Design** - Optimized for desktop healthcare workstations
 - **Professional Healthcare UI** - Clean, accessible interface design
@@ -164,8 +164,6 @@ The frontend is configured to communicate with the Django backend at `http://loc
 ### Supported Languages
 - Korean (Primary) 🇰🇷
 - English (Secondary) 🇺🇸
-- Chinese 🇨🇳
-- Japanese 🇯🇵
 
 ### Implementation
 - Language preference stored per patient

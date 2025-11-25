@@ -219,8 +219,8 @@ class EnhancedGoogleTranslateService(Translator):
             logger.error(f"Failed to save translation history: {e}")
 
     def get_supported_languages(self) -> List[str]:
-        """Return list of supported language codes"""
-        return ['ko', 'en', 'zh', 'ja', 'zh-CN', 'zh-TW']
+        """Return list of supported language codes (Korean, English for MVP)"""
+        return ['ko', 'en']
 
     def batch_translate(self, texts: List[str], from_lang: str, to_lang: str) -> List[str]:
         """

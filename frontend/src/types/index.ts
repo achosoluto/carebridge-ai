@@ -3,7 +3,7 @@ export interface Patient {
   id: number;
   phone: string;
   name: string;
-  preferred_language: 'ko' | 'en' | 'zh' | 'ja';
+  preferred_language: 'ko' | 'en';
   created_at: string;
   updated_at: string;
 }
@@ -15,7 +15,7 @@ export interface Message {
   patient_phone: string;
   content: string;
   direction: 'incoming' | 'outgoing';
-  channel: 'kakao' | 'wechat' | 'line' | 'sms' | 'phone';
+  channel: 'sms';
   is_ai_handled: boolean;
   needs_human: boolean;
   confidence_score: number | null;
@@ -88,7 +88,7 @@ export interface ChatMessage {
 export interface PatientFormData {
   phone: string;
   name: string;
-  preferred_language: 'ko' | 'en' | 'zh' | 'ja';
+  preferred_language: 'ko' | 'en';
 }
 
 export interface AppointmentFormData {
@@ -122,17 +122,11 @@ export interface Language {
 export const SUPPORTED_LANGUAGES: Language[] = [
   { code: 'ko', name: '한국어', flag: '🇰🇷' },
   { code: 'en', name: 'English', flag: '🇺🇸' },
-  { code: 'zh', name: '中文', flag: '🇨🇳' },
-  { code: 'ja', name: '日本語', flag: '🇯🇵' },
 ];
 
 // Channel support
 export const CHANNELS = [
-  { value: 'kakao', label: 'KakaoTalk', icon: '💬' },
-  { value: 'wechat', label: 'WeChat', icon: '💚' },
-  { value: 'line', label: 'LINE', icon: '🟢' },
   { value: 'sms', label: 'SMS', icon: '📱' },
-  { value: 'phone', label: 'Phone', icon: '📞' },
 ];
 // Phase 2 API Types
 

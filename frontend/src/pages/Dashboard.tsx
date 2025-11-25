@@ -15,6 +15,7 @@ import {
 import { formatRelativeTime, getChannelIcon, getConfidenceColor, getLanguageFlag } from '../utils/helpers'
 
 const Dashboard: React.FC = () => {
+  console.log('Rendering Dashboard');
   const { isConnected, messages, systemMetrics } = useRealTimeUpdates()
 
   // Get recent messages (last 10)
@@ -239,10 +240,7 @@ const Dashboard: React.FC = () => {
             <h3 className="text-lg font-semibold text-gray-900 mb-4">Channel Status</h3>
             <div className="space-y-3">
               {[
-                { name: 'KakaoTalk', icon: '💬', status: 'active' },
-                { name: 'WeChat', icon: '💚', status: 'active' },
-                { name: 'LINE', icon: '🟢', status: 'active' },
-                { name: 'SMS', icon: '📱', status: 'maintenance' },
+                { name: 'SMS', icon: '📱', status: 'active' },
               ].map((channel) => (
                 <div key={channel.name} className="flex items-center justify-between">
                   <div className="flex items-center space-x-2">

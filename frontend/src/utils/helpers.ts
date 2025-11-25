@@ -40,24 +40,16 @@ export const getLanguageFlag = (code: string): string => {
 // Channel utilities
 export const getChannelLabel = (channel: string): string => {
   const labels: Record<string, string> = {
-    kakao: 'KakaoTalk',
-    wechat: 'WeChat',
-    line: 'LINE',
     sms: 'SMS',
-    phone: 'Phone',
   };
-  return labels[channel] || channel;
+  return labels[channel] || 'Unknown Channel';
 };
 
 export const getChannelIcon = (channel: string): string => {
   const icons: Record<string, string> = {
-    kakao: '💬',
-    wechat: '💚',
-    line: '🟢',
     sms: '📱',
-    phone: '📞',
   };
-  return icons[channel] || '💬';
+  return icons[channel] || '❓';
 };
 
 // Confidence score utilities

@@ -1,6 +1,6 @@
 """
 Notification service for appointment reminders and staff alerts.
-Supports multiple channels: SMS, Email, KakaoTalk, WeChat, LINE.
+Supports SMS only for MVP.
 """
 
 import logging
@@ -18,18 +18,18 @@ from ..core.interfaces import NotificationService
 logger = logging.getLogger(__name__)
 
 
-class MultiChannelNotificationService(NotificationService):
+class SMSNotificationService(NotificationService):
     """
-    Multi-channel notification service for patient and staff communications.
-    Supports SMS, Email, and messaging platforms.
+    SMS-only notification service for patient and staff communications.
+    Simplified for MVP focusing on core functionality.
     """
 
     def __init__(self):
-        self.default_channel = 'email'
+        self.default_channel = 'sms'
         self.reminder_templates = self._load_reminder_templates()
 
     def _load_reminder_templates(self) -> Dict[str, Dict[str, str]]:
-        """Load notification templates for different languages."""
+        """Load notification templates for Korean and English only."""
         return {
             'appointment_reminder': {
                 'ko': """
@@ -53,28 +53,6 @@ Appointment Reminder:
 
 Please contact us if you have any questions.
 Thank you.
-                """.strip(),
-                'zh': """
-您好 {patient_name}，
-
-预约提醒：
-- 医生：{doctor}
-- 手术：{procedure}
-- 日期/时间：{scheduled_at}
-
-如有疑问请联系我们。
-谢谢。
-                """.strip(),
-                'ja': """
-{patient_name}様
-
-予約のお知らせ：
-- 医師：{doctor}
-- 施術：{procedure}
-- 日時：{scheduled_at}
-
-ご質問がございましたらご連絡ください。
-ありがとうございます。
                 """.strip()
             },
             'appointment_confirmation': {
@@ -99,28 +77,6 @@ Appointment Details:
 - Confirmation #: {appointment_id}
 
 Please contact us if you need to reschedule.
-                """.strip(),
-                'zh': """
-{patient_name}，您的预约已确认。
-
-预约详情：
-- 医生：{doctor}
-- 手术：{procedure}
-- 日期/时间：{scheduled_at}
-- 确认号：{appointment_id}
-
-如需更改预约请联系我们。
-                """.strip(),
-                'ja': """
-{patient_name}様、ご予約が確定しました。
-
-予約詳細：
-- 医師：{doctor}
-- 施術：{procedure}
-- 日時：{scheduled_at}
-- 確認番号：{appointment_id}
-
-予約変更が必要な場合はご連絡ください。
                 """.strip()
             },
             'waitlist_notification': {
@@ -145,28 +101,6 @@ A slot has become available for your waitlisted appointment!
 - Available Time: {available_time}
 
 Please confirm within 24 hours.
-                """.strip(),
-                'zh': """
-{patient_name}，
-
-您等待的预约时间现已可用！
-
-- 医生：{doctor}
-- 手术：{procedure}
-- 可用时间：{available_time}
-
-请在24小时内确认预约。
-                """.strip(),
-                'ja': """
-{patient_name}様、
-
-お待ちいただいていた予約枠が空きました！
-
-- 医師：{doctor}
-- 施術：{procedure}
-- 利用可能時間：{available_time}
-
-24時間以内にご確認ください。
                 """.strip()
             }
         }
@@ -229,80 +163,26 @@ Please confirm within 24 hours.
             return False
 
     def _determine_best_channel(self, patient: Patient) -> str:
-        """Determine best notification channel for patient."""
-        # Check recent message history to see preferred channel
-        recent_messages = Message.objects.filter(
-            patient=patient
-        ).order_by('-created_at')[:5]
+        """For MVP, always return SMS as the only supported channel."""
+        return 'sms'
 
-        if recent_messages:
-            # Use most recent channel
-            return recent_messages[0].channel
-        
-        # Default to email
-        return 'email'
-
-    def _send_via_channel(self, channel: str, recipient: str, 
+    def _send_via_channel(self, channel: str, recipient: str,
                          message: str, patient: Patient) -> bool:
-        """Send notification via specific channel."""
+        """Send notification via SMS channel only (MVP)."""
         try:
-            if channel == 'email':
-                return self._send_email(recipient, message, patient)
-            elif channel == 'sms':
+            if channel == 'sms':
                 return self._send_sms(recipient, message)
-            elif channel == 'kakao':
-                return self._send_kakao(recipient, message)
-            elif channel == 'wechat':
-                return self._send_wechat(recipient, message)
-            elif channel == 'line':
-                return self._send_line(recipient, message)
             else:
-                logger.warning(f"Unsupported channel: {channel}")
+                logger.warning(f"Only SMS channel supported in MVP: {channel}")
                 return False
         except Exception as e:
             logger.error(f"Error sending via {channel}: {e}")
-            return False
-
-    def _send_email(self, recipient: str, message: str, patient: Patient) -> bool:
-        """Send email notification."""
-        try:
-            subject = "Appointment Reminder - CareBridge AI"
-            from_email = settings.CLINIC_AI.get('STAFF_NOTIFICATION_EMAIL', 'noreply@carebridge.ai')
-            
-            send_mail(
-                subject=subject,
-                message=message,
-                from_email=from_email,
-                recipient_list=[recipient],
-                fail_silently=False
-            )
-            return True
-        except Exception as e:
-            logger.error(f"Email send error: {e}")
             return False
 
     def _send_sms(self, recipient: str, message: str) -> bool:
         """Send SMS notification (placeholder for SMS service integration)."""
         # In production, integrate with SMS service (Twilio, AWS SNS, etc.)
         logger.info(f"SMS would be sent to {recipient}: {message[:50]}...")
-        return True
-
-    def _send_kakao(self, recipient: str, message: str) -> bool:
-        """Send KakaoTalk notification (placeholder)."""
-        # In production, integrate with KakaoTalk API
-        logger.info(f"KakaoTalk would be sent to {recipient}: {message[:50]}...")
-        return True
-
-    def _send_wechat(self, recipient: str, message: str) -> bool:
-        """Send WeChat notification (placeholder)."""
-        # In production, integrate with WeChat API
-        logger.info(f"WeChat would be sent to {recipient}: {message[:50]}...")
-        return True
-
-    def _send_line(self, recipient: str, message: str) -> bool:
-        """Send LINE notification (placeholder)."""
-        # In production, integrate with LINE API
-        logger.info(f"LINE would be sent to {recipient}: {message[:50]}...")
         return True
 
     def notify_staff(self, message: str, priority: str = 'normal') -> bool:

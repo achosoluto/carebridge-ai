@@ -16,6 +16,7 @@ import { formatRelativeTime, getChannelIcon, getLanguageFlag, getLanguageName, g
 import { Patient, Message } from '../types'
 
 const Messages: React.FC = () => {
+  console.log('Rendering Messages');
   const navigate = useNavigate()
   const [searchTerm, setSearchTerm] = useState('')
   const [filterStatus, setFilterStatus] = useState<'all' | 'needs-human' | 'ai-handled'>('all')

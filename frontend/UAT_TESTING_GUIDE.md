@@ -14,7 +14,7 @@ After evaluating available tools, **Playwright** is the recommended solution for
 2. **Cross-Browser Testing**: Supports Chromium, Firefox, and WebKit for comprehensive coverage
 3. **Mobile Testing**: Built-in device emulation for responsive healthcare workflows
 4. **Auto-Waiting**: Intelligent element detection reduces flakiness in healthcare workflows
-5. **Multi-Language Support**: Excellent support for Korean, Chinese, Japanese character testing
+5. **Multi-Language Support**: Excellent support for Korean ↔ English character testing (MVP focus)
 6. **API Integration**: Direct integration with Django backend testing
 7. **Screenshots & Videos**: Automatic capture for debugging healthcare scenarios
 
@@ -99,9 +99,7 @@ tests/
 
 ### Supported Languages
 - Korean (ko) - Primary language
-- English (en)
-- Chinese (zh)
-- Japanese (ja)
+- English (en) - Secondary language
 
 ### Test Coverage
 - UI element translation verification

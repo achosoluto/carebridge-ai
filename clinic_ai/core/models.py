@@ -27,8 +27,6 @@ class Patient(BaseEntity):
     SUPPORTED_LANGUAGES = [
         ('ko', 'Korean'),
         ('en', 'English'),
-        ('zh', 'Chinese'),
-        ('ja', 'Japanese'),
     ]
 
     phone = models.CharField(max_length=20, unique=True, help_text="Patient's phone number as primary identifier")
@@ -54,11 +52,7 @@ class Message(BaseEntity):
     ]
 
     CHANNEL_CHOICES = [
-        ('kakao', 'KakaoTalk'),
-        ('wechat', 'WeChat'),
-        ('line', 'LINE'),
         ('sms', 'SMS'),
-        ('phone', 'Phone'),
     ]
 
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='messages')
@@ -267,8 +261,6 @@ class ProcedureType(BaseEntity):
     """
     name = models.CharField(max_length=200, help_text="Procedure name")
     name_ko = models.CharField(max_length=200, blank=True, help_text="Korean name")
-    name_zh = models.CharField(max_length=200, blank=True, help_text="Chinese name")
-    name_ja = models.CharField(max_length=200, blank=True, help_text="Japanese name")
     description = models.TextField(blank=True, help_text="Procedure description")
     estimated_duration = models.DurationField(help_text="Estimated procedure duration")
     requires_equipment = models.TextField(blank=True, help_text="Required equipment (comma-separated)")
@@ -351,10 +343,6 @@ class AppointmentReminder(BaseEntity):
     
     CHANNEL_CHOICES = [
         ('sms', 'SMS'),
-        ('email', 'Email'),
-        ('kakao', 'KakaoTalk'),
-        ('wechat', 'WeChat'),
-        ('line', 'LINE'),
     ]
     
     appointment = models.ForeignKey(Appointment, on_delete=models.CASCADE, related_name='reminders')

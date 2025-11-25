@@ -25,6 +25,7 @@ import {
 import { formatDate, formatRelativeTime } from '../utils/helpers'
 
 const Monitoring: React.FC = () => {
+  console.log('Rendering Monitoring');
   const [isRefreshing, setIsRefreshing] = useState(false)
   const [healthStatus, setHealthStatus] = useState<any>(null)
   
@@ -259,10 +260,7 @@ const Monitoring: React.FC = () => {
                 <h3 className="text-sm font-medium text-gray-900 mb-4">Channel Performance</h3>
                 <div className="space-y-3">
                   {[
-                    { name: 'KakaoTalk', messages: 45, success: 98, icon: '💬' },
-                    { name: 'WeChat', messages: 32, success: 96, icon: '💚' },
-                    { name: 'LINE', messages: 28, success: 94, icon: '🟢' },
-                    { name: 'SMS', messages: 15, success: 89, icon: '📱' },
+                    { name: 'SMS', messages: 60, success: 95, icon: '📱' },
                   ].map((channel) => (
                     <div key={channel.name} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                       <div className="flex items-center space-x-3">
@@ -295,9 +293,7 @@ const Monitoring: React.FC = () => {
                 <div className="space-y-3">
                   {[
                     { language: 'Korean', percentage: 60, count: 72, flag: '🇰🇷' },
-                    { language: 'English', percentage: 25, count: 30, flag: '🇺🇸' },
-                    { language: 'Chinese', percentage: 10, count: 12, flag: '🇨🇳' },
-                    { language: 'Japanese', percentage: 5, count: 6, flag: '🇯🇵' },
+                    { language: 'English', percentage: 40, count: 48, flag: '🇺🇸' },
                   ].map((lang) => (
                     <div key={lang.language} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                       <div className="flex items-center space-x-3">
