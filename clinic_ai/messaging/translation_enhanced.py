@@ -27,6 +27,11 @@ class EnhancedGoogleTranslateService(Translator):
         self.config = config_service
         self.cache = cache_service
         self.api_key = self.config.get_api_key('google_translate')
+
+        # Validate API key
+        if not self.api_key or 'your-' in self.api_key.lower() or 'fake' in self.api_key.lower():
+            logger.warning("Google Translate API key not properly configured - using limited functionality")
+
         self.base_url = "https://translation.googleapis.com/language/translate/v2"
         self.medical_terms_cache = {}
         self._load_medical_terminology()
