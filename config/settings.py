@@ -7,6 +7,9 @@ import os
 from pathlib import Path
 from decouple import config
 
+# Import Sentry configuration
+from .sentry import init_sentry
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -255,6 +258,9 @@ CLINIC_AI = {
     'ENABLE_METRICS': config('ENABLE_METRICS', default=True, cast=bool),
     'METRICS_RETENTION_DAYS': config('METRICS_RETENTION_DAYS', default=90, cast=int),
 }
+
+# Initialize Sentry error tracking
+init_sentry()
 
 # Ensure logs directory exists
 os.makedirs(BASE_DIR / 'logs', exist_ok=True)
