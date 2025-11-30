@@ -1,13 +1,13 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
-import { 
-  PatientService, 
-  MessageService, 
-  AppointmentService, 
+import {
+  PatientService,
+  MessageService,
+  AppointmentService,
   SystemMetricsService,
-  MessageProcessorService 
+  MessageProcessorService
 } from '../services/apiServices';
-import { 
+import {
   DoctorService,
   ProcedureTypeService,
   MedicalTermsService,
@@ -15,7 +15,7 @@ import {
   WaitlistService,
   RemindersService
 } from '../services/apiServices';
-import { Patient, Message, Appointment, SystemMetricsSummary } from '../types';
+import { Patient, Message, Appointment } from '../types';
 
 // Patient hooks
 export const usePatients = () => {
@@ -62,7 +62,7 @@ export const useDeletePatient = () => {
 
 // Message hooks
 export const useMessages = (patientId?: number) => {
-  return useQuery(['messages', { patientId }], () => 
+  return useQuery(['messages', { patientId }], () =>
     MessageService.getAll(patientId ? { patient_id: patientId } : undefined)
   );
 };
@@ -74,7 +74,7 @@ export const useMessage = (id: number) => {
 };
 
 export const useMessagesByPatient = (patientId: number) => {
-  return useQuery(['messages', 'patient', patientId], 
+  return useQuery(['messages', 'patient', patientId],
     () => MessageService.getByPatient(patientId),
     { enabled: !!patientId }
   );
@@ -163,17 +163,17 @@ export const useMessageProcessor = () => {
 // Real-time updates hook
 export const useRealTimeUpdates = (intervalMs: number = 30000) => {
   const [isConnected, setIsConnected] = useState(true);
-  
-  const { data: messages } = useQuery('messages', MessageService.getAll, {
+
+  const { data: messages } = useQuery('messages', () => MessageService.getAll(), {
     refetchInterval: intervalMs,
     refetchOnWindowFocus: true,
   });
-  
+
   const { data: appointments } = useQuery('appointments', AppointmentService.getAll, {
     refetchInterval: intervalMs * 2, // Less frequent updates for appointments
     refetchOnWindowFocus: true,
   });
-  
+
   const { data: systemMetrics } = useQuery('systemMetricsSummary', SystemMetricsService.getSummary, {
     refetchInterval: intervalMs * 3, // Even less frequent for metrics
     refetchOnWindowFocus: true,
@@ -182,10 +182,10 @@ export const useRealTimeUpdates = (intervalMs: number = 30000) => {
   useEffect(() => {
     const handleOnline = () => setIsConnected(true);
     const handleOffline = () => setIsConnected(false);
-    
+
     window.addEventListener('online', handleOnline);
     window.addEventListener('offline', handleOffline);
-    
+
     return () => {
       window.removeEventListener('online', handleOnline);
       window.removeEventListener('offline', handleOffline);
@@ -204,7 +204,7 @@ export const useRealTimeUpdates = (intervalMs: number = 30000) => {
 export const useLiveMessages = (patientId?: number) => {
   const queryClient = useQueryClient();
   const [lastUpdate, setLastUpdate] = useState<Date>(new Date());
-  
+
   const { data: messages, isLoading, error } = useQuery(
     ['live-messages', patientId],
     () => MessageService.getAll(patientId ? { patient_id: patientId } : undefined),
@@ -213,17 +213,17 @@ export const useLiveMessages = (patientId?: number) => {
       refetchIntervalInBackground: true,
     }
   );
-  
+
   const updateLastUpdate = useCallback(() => {
     setLastUpdate(new Date());
   }, []);
-  
+
   useEffect(() => {
     if (messages) {
       updateLastUpdate();
     }
   }, [messages, updateLastUpdate]);
-  
+
   return {
     messages: messages || [],
     isLoading,
@@ -291,4 +291,7 @@ export const useScheduleReminder = () => {
   const queryClient = useQueryClient();
   return useMutation(RemindersService.scheduleReminder, {
     onSuccess: () => {
-      queryClient.invalidateQueries({
+      queryClient.invalidateQueries({ queryKey: ['appointments'] });
+    },
+  });
+};

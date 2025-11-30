@@ -6,22 +6,22 @@ export default defineConfig({
   plugins: [react()],
   base: '/static/',
   server: {
-    port: 3000,
+    port: 5173,
     host: true, // Allow external connections
     proxy: {
       '/api': {
         // In Docker, use 'backend' service name instead of localhost
         target: process.env.NODE_ENV === 'development'
-          ? 'http://localhost:8000'
-          : 'http://backend:8000',
+          ? 'http://localhost:8080'
+          : 'http://backend:8080',
         changeOrigin: true,
         secure: false,
         rewrite: (path) => path.replace(/^\/api/, '/api'),
       },
       '/admin': {
         target: process.env.NODE_ENV === 'development'
-          ? 'http://localhost:8000'
-          : 'http://backend:8000',
+          ? 'http://localhost:8080'
+          : 'http://backend:8080',
         changeOrigin: true,
         secure: false,
         rewrite: (path) => path.replace(/^\/admin/, '/admin'),

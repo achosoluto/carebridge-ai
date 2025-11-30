@@ -1,281 +1,202 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { usePatients, useMessages, useRealTimeUpdates } from '../hooks/useApi'
-import { 
-  Search, 
-  MessageSquare, 
-  Phone, 
-  Clock,
-  Bot,
-  AlertCircle,
-  Filter,
-  User,
-  ArrowRight
-} from 'lucide-react'
-import { formatRelativeTime, getChannelIcon, getLanguageFlag, getLanguageName, getConfidenceColor } from '../utils/helpers'
-import { Patient, Message } from '../types'
+import { usePatients, useMessages } from '../hooks/useApi'
+import { MessageSquare, Search, Filter, User, Clock, Bot, AlertCircle, ChevronRight } from 'lucide-react'
 
-const Messages: React.FC = () => {
-  const navigate = useNavigate()
-  const [searchTerm, setSearchTerm] = useState('')
-  const [filterStatus, setFilterStatus] = useState<'all' | 'needs-human' | 'ai-handled'>('all')
+export default function Messages() {
+    const navigate = useNavigate()
+    const [searchTerm, setSearchTerm] = useState('')
+    const [filterStatus, setFilterStatus] = useState<'all' | 'needs-human' | 'ai-handled'>('all')
 
-  // Fetch data
-  const { data: patients = [], isLoading: patientsLoading } = usePatients()
-  const { data: messages = [], isLoading: messagesLoading } = useMessages()
-  const { isConnected } = useRealTimeUpdates()
+    const { data: patients = [], isLoading: patientsLoading } = usePatients()
+    const { data: messages = [], isLoading: messagesLoading } = useMessages()
 
-  // Group messages by patient for conversation list
-  const messagesByPatient = React.useMemo(() => {
-    const grouped = messages.reduce((acc, message) => {
-      if (!acc[message.patient]) {
-        acc[message.patient] = {
-          patient: patients.find(p => p.id === message.patient) || { 
-            id: message.patient, 
-            name: message.patient_name, 
-            phone: message.patient_phone,
-            preferred_language: 'ko' as const,
-            created_at: '',
-            updated_at: ''
-          },
-          messages: []
+    // Group messages by patient
+    const patientConversations = patients.map(patient => {
+        const patientMessages = messages.filter(m => m.patient === patient.id)
+        const lastMessage = patientMessages[0] // Assuming messages are sorted by date desc
+
+        return {
+            patient,
+            messages: patientMessages,
+            lastMessage,
+            unreadCount: patientMessages.filter(m => m.needs_human).length
         }
-      }
-      acc[message.patient].messages.push(message)
-      return acc
-    }, {} as Record<number, { patient: Patient; messages: Message[] }>)
-    
-    return Object.values(grouped)
-  }, [messages, patients])
+    }).filter(conv => conv.messages.length > 0)
 
-  // Filter conversations based on search and status
-  const filteredConversations = messagesByPatient.filter(({ patient, messages }) => {
-    const matchesSearch = patient.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         patient.phone.includes(searchTerm)
-    
-    if (!matchesSearch) return false
+    // Apply filters
+    const filteredConversations = patientConversations.filter(conv => {
+        const matchesSearch = conv.patient.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            conv.patient.phone.includes(searchTerm)
 
-    const latestMessage = messages[0] // Messages are ordered by -created_at
-    switch (filterStatus) {
-      case 'needs-human':
-        return latestMessage?.needs_human
-      case 'ai-handled':
-        return latestMessage?.is_ai_handled && !latestMessage?.needs_human
-      default:
-        return true
-    }
-  })
+        let matchesFilter = true
+        if (filterStatus === 'needs-human') {
+            matchesFilter = conv.messages.some(m => m.needs_human)
+        } else if (filterStatus === 'ai-handled') {
+            matchesFilter = conv.messages.every(m => m.is_ai_handled && !m.needs_human)
+        }
 
-  // Sort conversations by latest message
-  const sortedConversations = filteredConversations.sort((a, b) => {
-    const aLatest = a.messages[0]?.created_at || ''
-    const bLatest = b.messages[0]?.created_at || ''
-    return new Date(bLatest).getTime() - new Date(aLatest).getTime()
-  })
+        return matchesSearch && matchesFilter
+    })
 
-  const ConversationCard: React.FC<{ conversation: { patient: Patient; messages: Message[] } }> = ({ 
-    conversation 
-  }) => {
-    const { patient, messages } = conversation
-    const latestMessage = messages[0]
-    const unreadCount = messages.filter(m => m.direction === 'incoming').length
+    const isLoading = patientsLoading || messagesLoading
 
     return (
-      <div 
-        className="card hover:shadow-md transition-shadow cursor-pointer"
-        onClick={() => navigate(`/staff/messages/${patient.id}`)}
-      >
-        <div className="flex items-start space-x-4">
-          {/* Patient Avatar */}
-          <div className="flex-shrink-0">
-            <div className="w-12 h-12 bg-healthcare-primary rounded-full flex items-center justify-center">
-              <User className="h-6 w-6 text-white" />
-            </div>
-            <div className="text-center mt-1">
-              <span className="text-xs">{getLanguageFlag(patient.preferred_language)}</span>
-            </div>
-          </div>
-
-          {/* Conversation Details */}
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center justify-between">
-              <h3 className="text-sm font-semibold text-gray-900 truncate">
-                {patient.name || 'Unknown Patient'}
-              </h3>
-              <div className="flex items-center space-x-2">
-                {unreadCount > 0 && (
-                  <span className="inline-flex items-center justify-center w-5 h-5 text-xs font-medium text-white bg-red-500 rounded-full">
-                    {unreadCount}
-                  </span>
-                )}
-                <span className="text-xs text-gray-500">
-                  {formatRelativeTime(latestMessage?.created_at || patient.updated_at)}
-                </span>
-              </div>
-            </div>
-
-            <div className="flex items-center space-x-2 mt-1">
-              <span className="text-sm text-gray-600">{patient.phone}</span>
-              <span className="text-xs text-gray-500">•</span>
-              <span className="text-xs text-gray-500">
-                {getLanguageName(patient.preferred_language)}
-              </span>
-            </div>
-
-            {/* Latest Message Preview */}
-            {latestMessage && (
-              <div className="mt-2">
-                <div className="flex items-center space-x-2">
-                  <span className="text-xs">
-                    {getChannelIcon(latestMessage.channel)}
-                  </span>
-                  <span className={`text-xs px-2 py-1 rounded-full ${
-                    latestMessage.direction === 'incoming' 
-                      ? 'bg-gray-100 text-gray-700' 
-                      : 'bg-healthcare-primary text-white'
-                  }`}>
-                    {latestMessage.direction === 'incoming' ? 'Patient' : 'You'}
-                  </span>
-                  
-                  {latestMessage.is_ai_handled && (
-                    <span className={`text-xs px-2 py-1 rounded-full ${getConfidenceColor(latestMessage.confidence_score)}`}>
-                      <Bot className="h-3 w-3 inline mr-1" />
-                      AI
-                    </span>
-                  )}
-                  
-                  {latestMessage.needs_human && (
-                    <span className="text-xs px-2 py-1 rounded-full bg-red-100 text-red-800">
-                      <AlertCircle className="h-3 w-3 inline mr-1" />
-                      Human Needed
-                    </span>
-                  )}
+        <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 p-8">
+            <div className="max-w-7xl mx-auto">
+                {/* Header */}
+                <div className="mb-8">
+                    <h1 className="text-4xl font-bold text-gray-900 mb-2">Patient Messages</h1>
+                    <p className="text-gray-600">View and manage all patient conversations</p>
                 </div>
-                
-                <p className="text-sm text-gray-600 mt-1 line-clamp-2">
-                  {latestMessage.content}
-                </p>
-              </div>
-            )}
-          </div>
 
-          {/* Action Arrow */}
-          <div className="flex-shrink-0">
-            <ArrowRight className="h-5 w-5 text-gray-400" />
-          </div>
+                {/* Filters */}
+                <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 mb-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="relative">
+                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                            <input
+                                type="text"
+                                placeholder="Search by patient name or phone..."
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            />
+                        </div>
+                        <div className="relative">
+                            <Filter className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                            <select
+                                value={filterStatus}
+                                onChange={(e) => setFilterStatus(e.target.value as any)}
+                                className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none"
+                            >
+                                <option value="all">All Conversations</option>
+                                <option value="needs-human">Needs Human Attention</option>
+                                <option value="ai-handled">AI Handled</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Conversations List */}
+                <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
+                    {isLoading ? (
+                        <div className="text-center py-12">
+                            <div className="animate-spin w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full mx-auto"></div>
+                            <p className="text-gray-500 mt-4">Loading conversations...</p>
+                        </div>
+                    ) : filteredConversations.length === 0 ? (
+                        <div className="text-center py-12">
+                            <MessageSquare className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+                            <p className="text-gray-500">No conversations found</p>
+                        </div>
+                    ) : (
+                        <div className="space-y-3">
+                            {filteredConversations.map((conv) => (
+                                <div
+                                    key={conv.patient.id}
+                                    onClick={() => navigate(`/staff/messages/${conv.patient.id}`)}
+                                    className="p-4 bg-gray-50 rounded-xl hover:bg-blue-50 transition-colors cursor-pointer group"
+                                >
+                                    <div className="flex items-start justify-between">
+                                        <div className="flex-1">
+                                            <div className="flex items-center gap-3 mb-2">
+                                                <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white font-bold">
+                                                    {conv.patient.name.charAt(0).toUpperCase()}
+                                                </div>
+                                                <div>
+                                                    <div className="flex items-center gap-2">
+                                                        <span className="font-semibold text-gray-900">{conv.patient.name}</span>
+                                                        {conv.unreadCount > 0 && (
+                                                            <span className="px-2 py-1 bg-red-500 text-white text-xs rounded-full">
+                                                                {conv.unreadCount}
+                                                            </span>
+                                                        )}
+                                                    </div>
+                                                    <span className="text-sm text-gray-500">{conv.patient.phone}</span>
+                                                </div>
+                                            </div>
+
+                                            {conv.lastMessage && (
+                                                <div className="ml-13">
+                                                    <div className="flex items-center gap-2 mb-1">
+                                                        {conv.lastMessage.is_ai_handled && (
+                                                            <span className="px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full flex items-center gap-1">
+                                                                <Bot className="w-3 h-3" />
+                                                                AI
+                                                            </span>
+                                                        )}
+                                                        {conv.lastMessage.needs_human && (
+                                                            <span className="px-2 py-1 bg-red-100 text-red-700 text-xs rounded-full flex items-center gap-1">
+                                                                <AlertCircle className="w-3 h-3" />
+                                                                Needs Attention
+                                                            </span>
+                                                        )}
+                                                        <span className="text-xs text-gray-400 flex items-center gap-1">
+                                                            <Clock className="w-3 h-3" />
+                                                            {new Date(conv.lastMessage.created_at).toLocaleString()}
+                                                        </span>
+                                                    </div>
+                                                    <p className="text-sm text-gray-600 line-clamp-2">
+                                                        {conv.lastMessage.content}
+                                                    </p>
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        <div className="flex items-center gap-3 ml-4">
+                                            <div className="text-right">
+                                                <div className="text-sm font-medium text-gray-700">
+                                                    {conv.messages.length} messages
+                                                </div>
+                                                <div className="text-xs text-gray-500">
+                                                    {conv.patient.preferred_language.toUpperCase()}
+                                                </div>
+                                            </div>
+                                            <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-blue-500 transition-colors" />
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
+
+                {/* Stats Summary */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+                    <div className="bg-white rounded-xl p-4 shadow border border-gray-100">
+                        <div className="flex items-center gap-3">
+                            <MessageSquare className="w-8 h-8 text-blue-500" />
+                            <div>
+                                <p className="text-sm text-gray-600">Total Conversations</p>
+                                <p className="text-2xl font-bold text-gray-900">{patientConversations.length}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="bg-white rounded-xl p-4 shadow border border-gray-100">
+                        <div className="flex items-center gap-3">
+                            <Bot className="w-8 h-8 text-green-500" />
+                            <div>
+                                <p className="text-sm text-gray-600">AI Handled</p>
+                                <p className="text-2xl font-bold text-gray-900">
+                                    {patientConversations.filter(c => c.messages.every(m => m.is_ai_handled)).length}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="bg-white rounded-xl p-4 shadow border border-gray-100">
+                        <div className="flex items-center gap-3">
+                            <AlertCircle className="w-8 h-8 text-red-500" />
+                            <div>
+                                <p className="text-sm text-gray-600">Needs Attention</p>
+                                <p className="text-2xl font-bold text-gray-900">
+                                    {patientConversations.filter(c => c.messages.some(m => m.needs_human)).length}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
     )
-  }
-
-  if (patientsLoading || messagesLoading) {
-    return (
-      <div className="px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-center items-center h-64">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-healthcare-primary"></div>
-        </div>
-      </div>
-    )
-  }
-
-  return (
-    <div className="px-4 sm:px-6 lg:px-8">
-      {/* Header */}
-      <div className="mb-8">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900">Patient Messages</h1>
-            <p className="text-gray-600">Monitor and manage patient conversations</p>
-          </div>
-          <div className="flex items-center space-x-4">
-            <div className={`flex items-center space-x-2 px-3 py-1 rounded-full text-sm ${
-              isConnected ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-            }`}>
-              <div className={`h-2 w-2 rounded-full ${
-                isConnected ? 'bg-green-500' : 'bg-red-500'
-              }`} />
-              <span>{isConnected ? 'Connected' : 'Disconnected'}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Search and Filters */}
-      <div className="card mb-6">
-        <div className="flex flex-col sm:flex-row gap-4">
-          {/* Search */}
-          <div className="flex-1">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
-              <input
-                type="text"
-                placeholder="Search patients by name or phone..."
-                className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-lg focus:ring-2 focus:ring-healthcare-primary focus:border-transparent"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-            </div>
-          </div>
-
-          {/* Status Filter */}
-          <div className="sm:w-48">
-            <select
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-healthcare-primary focus:border-transparent"
-              value={filterStatus}
-              onChange={(e) => setFilterStatus(e.target.value as 'all' | 'needs-human' | 'ai-handled')}
-            >
-              <option value="all">All Conversations</option>
-              <option value="needs-human">Needs Human</option>
-              <option value="ai-handled">AI Handled</option>
-            </select>
-          </div>
-        </div>
-      </div>
-
-      {/* Conversations List */}
-      <div className="space-y-4">
-        {sortedConversations.length > 0 ? (
-          sortedConversations.map((conversation) => (
-            <ConversationCard key={conversation.patient.id} conversation={conversation} />
-          ))
-        ) : (
-          <div className="card text-center py-12">
-            <MessageSquare className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">No conversations found</h3>
-            <p className="text-gray-600">
-              {searchTerm || filterStatus !== 'all' 
-                ? 'Try adjusting your search or filter criteria' 
-                : 'No patient conversations available yet'}
-            </p>
-          </div>
-        )}
-      </div>
-
-      {/* Statistics Footer */}
-      {sortedConversations.length > 0 && (
-        <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div className="card text-center">
-            <div className="text-2xl font-bold text-healthcare-primary">{sortedConversations.length}</div>
-            <div className="text-sm text-gray-600">Total Conversations</div>
-          </div>
-          
-          <div className="card text-center">
-            <div className="text-2xl font-bold text-blue-600">
-              {sortedConversations.filter(c => c.messages[0]?.is_ai_handled).length}
-            </div>
-            <div className="text-sm text-gray-600">AI Handled</div>
-          </div>
-          
-          <div className="card text-center">
-            <div className="text-2xl font-bold text-red-600">
-              {sortedConversations.filter(c => c.messages[0]?.needs_human).length}
-            </div>
-            <div className="text-sm text-gray-600">Needs Human</div>
-          </div>
-        </div>
-      )}
-    </div>
-  )
 }
-
-export default Messages

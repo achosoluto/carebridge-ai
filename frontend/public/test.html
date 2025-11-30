@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CareBridge AI - Connection Test</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .card {
+            background: white;
+            color: #333;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .status {
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .success {
+            background: #10b981;
+            color: white;
+        }
+
+        .error {
+            background: #ef4444;
+            color: white;
+        }
+
+        .loading {
+            background: #f59e0b;
+            color: white;
+        }
+
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px;
+        }
+
+        button:hover {
+            background: #5568d3;
+        }
+
+        pre {
+            background: #f3f4f6;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <h1>🏥 CareBridge AI - Connection Test</h1>
+
+        <div id="frontend-status" class="status loading">
+            ⏳ Testing Frontend Connection...
+        </div>
+
+        <div id="backend-status" class="status loading">
+            ⏳ Testing Backend Connection...
+        </div>
+
+        <div id="api-status" class="status loading">
+            ⏳ Testing API Connection...
+        </div>
+
+        <h3>Test Results:</h3>
+        <pre id="results">Running tests...</pre>
+
+        <div style="margin-top: 20px;">
+            <button onclick="runTests()">🔄 Re-run Tests</button>
+            <button onclick="window.location.href='/static/staff/dashboard'">📊 Go to Dashboard</button>
+        </div>
+
+        <h3>Current Configuration:</h3>
+        <ul>
+            <li><strong>Frontend URL:</strong> http://localhost:5173</li>
+            <li><strong>Backend URL:</strong> http://localhost:8080</li>
+            <li><strong>API Endpoint:</strong> http://localhost:8080/api</li>
+        </ul>
+    </div>
+
+    <script>
+        async function runTests() {
+            const results = [];
+
+            // Test 1: Frontend is loaded
+            document.getElementById('frontend-status').className = 'status success';
+            document.getElementById('frontend-status').textContent = '✅ Frontend: Connected (You can see this page!)';
+            results.push('✅ Frontend is working');
+
+            // Test 2: Backend connection
+            try {
+                const backendResponse = await fetch('http://localhost:8080/api/patients/');
+                if (backendResponse.ok) {
+                    document.getElementById('backend-status').className = 'status success';
+                    document.getElementById('backend-status').textContent = '✅ Backend: Connected';
+                    results.push('✅ Backend is responding');
+                } else {
+                    throw new Error(`Status: ${backendResponse.status}`);
+                }
+            } catch (error) {
+                document.getElementById('backend-status').className = 'status error';
+                document.getElementById('backend-status').textContent = '❌ Backend: Connection Failed - ' + error.message;
+                results.push('❌ Backend connection failed: ' + error.message);
+            }
+
+            // Test 3: API data fetch
+            try {
+                const apiResponse = await fetch('http://localhost:8080/api/messages/');
+                if (apiResponse.ok) {
+                    const data = await apiResponse.json();
+                    // Handle both paginated and non-paginated responses
+                    const messages = data.results || data;
+                    const messageCount = data.count || messages.length;
+
+                    document.getElementById('api-status').className = 'status success';
+                    document.getElementById('api-status').textContent = `✅ API: ${messageCount} messages loaded`;
+                    results.push(`✅ API returned ${messageCount} messages`);
+
+                    if (Array.isArray(messages)) {
+                        results.push('Sample data:');
+                        results.push(JSON.stringify(messages.slice(0, 2), null, 2));
+                    } else {
+                        results.push('Response structure:');
+                        results.push(JSON.stringify(data, null, 2));
+                    }
+                } else {
+                    throw new Error(`Status: ${apiResponse.status}`);
+                }
+            } catch (error) {
+                document.getElementById('api-status').className = 'status error';
+                document.getElementById('api-status').textContent = '❌ API: Failed - ' + error.message;
+                results.push('❌ API failed: ' + error.message);
+            }
+
+            document.getElementById('results').textContent = results.join('\n\n');
+        }
+
+        // Run tests on page load
+        runTests();
+    </script>
+</body>
+
+</html>
