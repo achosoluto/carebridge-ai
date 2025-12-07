@@ -1,0 +1,79 @@
+{
+  "login": {
+    "title": "CareBridge 직원 로그인",
+    "username": "아이디",
+    "password": "비밀번호",
+    "loginButton": "로그인",
+    "invalidCredentials": "로그인 정보가 올바르지 않습니다."
+  },
+  "portal": {
+    "home": {
+      "welcome": "CareBridge 클리닉에 오신 것을 환영합니다",
+      "subtitle": "당신의 아름다움 여정이 여기서 시작됩니다. 오늘 어떻게 도와드릴까요?",
+      "bookConsultation": "상담 예약",
+      "selfBooking": "자가 예약",
+      "selfBookingDesc": "가능 시간을 확인하고 즉시 예약하세요.",
+      "support": "24/7 지원",
+      "supportDesc": "AI 어시스턴트로부터 가격 및 시술에 대한 답변을 받으세요.",
+      "procedures": "시술",
+      "proceduresDesc": "시술 목록과 사후 관리 지침을 살펴보세요."
+    },
+    "layout": {
+      "title": "CareBridge 환자",
+      "home": "홈",
+      "bookNow": "지금 예약",
+      "copyright": "© 2025 CareBridge 클리닉"
+    },
+    "bookAppointment": {
+      "title": "예약하기",
+      "selectDoctor": "의사 선택",
+      "date": "날짜",
+      "time": "시간",
+      "yourDetails": "귀하의 세부 정보",
+      "fullName": "성명",
+      "contact": "연락처 (전화/이메일/라인 ID)",
+      "preferredLanguage": "선호 언어",
+      "confirmBooking": "예약 확인",
+      "bookingConfirmed": "예약 확인됨!",
+      "confirmationMessage": "CareBridge를 이용해 주셔서 감사합니다. 연락처로 확인 메시지를 보냈습니다.",
+      "backToHome": "홈으로 돌아가기"
+    }
+  },
+  "staff": {
+    "layout": {
+      "title": "CareBridge",
+      "subtitle": "직원 포털",
+      "dashboard": "대시보드",
+      "patients": "환자 관리",
+      "appointments": "예약 관리",
+      "messages": "메시지",
+      "logout": "로그아웃",
+      "staffMember": "직원"
+    },
+    "appointments": {
+      "status": {
+        "PENDING": "대기 중",
+        "CONFIRMED": "확정됨",
+        "COMPLETED": "완료됨",
+        "CANCELLED": "취소됨"
+      },
+      "loading": "예약 불러오는 중...",
+      "bookingFailed": "예약을 생성하지 못했습니다"
+    },
+    "messages": {
+      "sendingFailed": "메시지를 보내지 못했습니다"
+    },
+    "staff": {
+      "patients": {
+        "creationFailed": "환자 등록에 실패했습니다"
+      }
+    },
+    "dashboard": {
+      "recentActivity": "최근 활동",
+      "noRecentActivity": "표시할 최근 활동이 없습니다.",
+      "totalPatients": "총 환자 수",
+      "todaysAppointments": "오늘의 예약",
+      "unreadMessages": "안 읽은 메시지"
+    }
+  }
+}

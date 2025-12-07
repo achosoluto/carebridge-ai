@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import api from '../services/api';
 import { Clock, Plus, User } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface Appointment {
     id: number;
@@ -21,6 +22,7 @@ interface Patient {
 }
 
 const Appointments: React.FC = () => {
+    const { t } = useTranslation();
     const [appointments, setAppointments] = useState<Appointment[]>([]);
     const [patients, setPatients] = useState<Patient[]>([]);
     const [doctors, setDoctors] = useState<Doctor[]>([]);
@@ -70,7 +72,7 @@ const Appointments: React.FC = () => {
             fetchData(); // Refresh
         } catch (error) {
             console.error('Error booking appointment:', error);
-            alert('Failed to book appointment');
+            alert(t('staff.appointments.bookingFailed'));
         }
     };
 
@@ -84,18 +86,18 @@ const Appointments: React.FC = () => {
         }
     };
 
-    if (loading) return <div className="p-8 text-center text-gray-500">Loading appointments...</div>;
+    if (loading) return <div className="p-8 text-center text-gray-500">{t('staff.appointments.loadingAppointments')}</div>;
 
     return (
         <div>
             <div className="flex justify-between items-center mb-6">
-                <h1 className="text-2xl font-bold text-gray-800">Appointments</h1>
+                <h1 className="text-2xl font-bold text-gray-800">{t('staff.appointments.title')}</h1>
                 <button
                     onClick={() => setShowModal(true)}
                     className="bg-primary text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-600 transition-colors"
                 >
                     <Plus className="w-4 h-4" />
-                    Book Appointment
+                    {t('staff.appointments.addAppointment')}
                 </button>
             </div>
 
@@ -103,23 +105,23 @@ const Appointments: React.FC = () => {
                 {/* Upcoming Appointments List */}
                 <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden col-span-2">
                     <div className="p-4 border-b border-gray-200 bg-gray-50 flex justify-between items-center">
-                        <h2 className="font-semibold text-gray-700">Scheduled Appointments</h2>
+                        <h2 className="font-semibold text-gray-700">{t('staff.appointments.scheduleTitle')}</h2>
                     </div>
                     <div className="divide-y divide-gray-100">
                         {appointments.length === 0 ? (
-                            <div className="p-8 text-center text-gray-400">No appointments scheduled</div>
+                            <div className="p-8 text-center text-gray-400">{t('staff.appointments.noAppointments')}</div>
                         ) : (
                             appointments.map(appt => (
                                 <div key={appt.id} className="p-4 flex items-center justify-between hover:bg-gray-50 transition-colors">
                                     <div className="flex items-center gap-4">
                                         <div className="w-12 h-12 rounded-lg bg-blue-50 flex flex-col items-center justify-center text-blue-600 border border-blue-100">
                                             <span className="text-xs font-bold">{new Date(appt.datetime).getDate()}</span>
-                                            <span className="text-[10px] uppercase">{new Date(appt.datetime).toLocaleString('default', { month: 'short' })}</span>
+                                            <span className="text-[10px] uppercase">{new Date(appt.datetime).toLocaleString('ko-KR', { month: 'short' })}</span>
                                         </div>
                                         <div>
                                             <h3 className="font-medium text-gray-900">{appt.patient_name}</h3>
                                             <p className="text-sm text-gray-500 flex items-center gap-2">
-                                                <User className="w-3 h-3" /> With {appt.doctor_name}
+                                                <User className="w-3 h-3" /> {t('staff.appointments.doctorLabel')}: {appt.doctor_name}
                                             </p>
                                         </div>
                                     </div>
@@ -130,7 +132,7 @@ const Appointments: React.FC = () => {
                                                 {new Date(appt.datetime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                                             </p>
                                             <span className={`inline-block px-2 py-0.5 rounded-full text-[10px] font-semibold mt-1 ${getStatusColor(appt.status)}`}>
-                                                {appt.status}
+                                                {t(`staff.appointments.status.${appt.status}`, appt.status)}
                                             </span>
                                         </div>
                                         {/* Actions could go here */}
@@ -146,32 +148,32 @@ const Appointments: React.FC = () => {
             {showModal && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
                     <div className="bg-white rounded-xl shadow-xl w-full max-w-md p-6">
-                        <h2 className="text-xl font-bold mb-4">Book Appointment</h2>
+                        <h2 className="text-xl font-bold mb-4">{t('staff.appointments.bookAppointment')}</h2>
                         <form onSubmit={handleBook}>
                             <div className="space-y-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Patient</label>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">{t('staff.appointments.selectPatient')}</label>
                                     <select
                                         required
                                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                                         value={booking.patient}
                                         onChange={e => setBooking({ ...booking, patient: e.target.value })}
                                     >
-                                        <option value="">Select Patient</option>
+                                        <option value="">{t('staff.appointments.selectPatientPlaceholder')}</option>
                                         {patients.map(p => (
                                             <option key={p.id} value={p.id}>{p.name}</option>
                                         ))}
                                     </select>
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Doctor</label>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">{t('staff.appointments.selectDoctor')}</label>
                                     <select
                                         required
                                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                                         value={booking.doctor}
                                         onChange={e => setBooking({ ...booking, doctor: e.target.value })}
                                     >
-                                        <option value="">Select Doctor</option>
+                                        <option value="">{t('staff.appointments.placeholderDoctor')}</option>
                                         {doctors.map(d => (
                                             <option key={d.id} value={d.id}>{d.name}</option>
                                         ))}
@@ -179,7 +181,7 @@ const Appointments: React.FC = () => {
                                 </div>
                                 <div className="grid grid-cols-2 gap-4">
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">Date</label>
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">{t('staff.appointments.dateLabel')}</label>
                                         <input
                                             required
                                             type="date"
@@ -189,31 +191,33 @@ const Appointments: React.FC = () => {
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">Time</label>
-                                        <input
-                                            required
-                                            type="time"
-                                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                                            value={booking.time}
-                                            onChange={e => setBooking({ ...booking, time: e.target.value })}
-                                        />
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">{t('staff.appointments.timeLabel')}</label>
+                                            <input
+                                                required
+                                                type="time"
+                                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                                                value={booking.time}
+                                                onChange={e => setBooking({ ...booking, time: e.target.value })}
+                                            />
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div className="mt-6 flex justify-end gap-3">
-                                <button
-                                    type="button"
-                                    onClick={() => setShowModal(false)}
-                                    className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg"
-                                >
-                                    Cancel
-                                </button>
-                                <button
-                                    type="submit"
-                                    className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-blue-600"
-                                >
-                                    Confirm Booking
-                                </button>
+                                <div className="mt-6 flex justify-end gap-3">
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowModal(false)}
+                                        className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg"
+                                    >
+                                        {t('staff.appointments.cancelButton')}
+                                    </button>
+                                    <button
+                                        type="submit"
+                                        className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-blue-600"
+                                    >
+                                        {t('staff.appointments.confirmButton')}
+                                    </button>
+                                </div>
                             </div>
                         </form>
                     </div>

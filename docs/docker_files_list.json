@@ -1,0 +1,6 @@
+[
+    "backend/Dockerfile",
+    "frontend/Dockerfile",
+    "frontend/nginx.conf",
+    "docker-compose.yml"
+]

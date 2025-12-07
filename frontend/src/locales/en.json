@@ -1,0 +1,43 @@
+{
+  "login": {
+    "title": "CareBridge Staff Login",
+    "username": "Username",
+    "password": "Password",
+    "loginButton": "Login",
+    "invalidCredentials": "Invalid credentials. Please try again."
+  },
+  "messages": {
+    "conversationList": "Conversation List",
+    "noMessages": "No conversation history. Send a message to start.",
+    "inputPlaceholder": "Enter message (Korean)...",
+    "sendingFailed": "Failed to send message.",
+    "loadingMessages": "Loading messages...",
+    "translatingTo": "Translating to {{language}}"
+  },
+  "staff": {
+    "appointments": {
+      "title": "Appointment Management",
+      "addAppointment": "Add Appointment",
+      "scheduleTitle": "Appointment Schedule",
+      "noAppointments": "No scheduled appointments",
+      "doctorLabel": "Doctor",
+      "dateLabel": "Date",
+      "timeLabel": "Time",
+      "cancelButton": "Cancel",
+      "confirmButton": "Confirm Booking",
+      "bookingFailed": "Failed to book appointment.",
+      "loadingAppointments": "Loading appointments...",
+      "bookAppointment": "Book Appointment",
+      "selectPatient": "Select Patient",
+      "selectPatientPlaceholder": "Select a patient",
+      "selectDoctor": "Select Doctor",
+      "placeholderDoctor": "Select a doctor",
+      "status": {
+        "PENDING": "Pending",
+        "CONFIRMED": "Confirmed",
+        "COMPLETED": "Completed",
+        "CANCELLED": "Cancelled"
+      }
+    }
+  }
+}

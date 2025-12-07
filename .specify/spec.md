@@ -4,6 +4,7 @@
 A simple web application that helps Korean plastic surgery clinics communicate with Japanese and Chinese patients through real-time translation and basic appointment booking.
 
 **Important Note**: Japanese customers primarily use Line, while Chinese customers use WeChat for messaging. The system focuses on web-based communication to avoid complex integrations, but clinic staff should be aware of these dominant platforms when directing patients to the web interface.
+**Interface Language**: The entire staff interface must be in **Korean** to accommodate the primary users (Korean clinic staff).
 
 ## Who Uses It
 - **Korean Clinic Staff**: Doctors and receptionists who speak Korean
@@ -31,17 +32,38 @@ A simple web application that helps Korean plastic surgery clinics communicate w
 4. Books appointments in familiar interface
 5. Manages patient communication efficiently
 
-## Key Features (Simplified)
+## Key Features (Enhanced)
+- **Seamless Booking Experience**: Self-service booking with real-time availability and automated confirmations. Eliminates manual back-and-forth.
+- **Instant Access to Information**: 24/7 chatbot for procedure costs, care instructions, and recommendations.
+- **Staff Efficiency Optimization**: Automated reminders, pre-filled patient data, and usage analytics.
 - **Translation Service**: Korean ↔ Japanese/Chinese for medical terms
-- **Patient Messaging**: Simple chat interface
-- **Appointment Booking**: Basic calendar and form
 - **Staff Dashboard**: Clean interface for daily operations
 
+## Detailed Feature Specifications
+
+### 1. Seamless Booking Experience
+- **User Story**: As a patient, I want to view available slots and book my own appointment without waiting for a staff reply.
+- **Acceptance Criteria**:
+    - Patient-facing booking portal (web).
+    - Real-time sync with doctor availability.
+    - Automated confirmation email/message in patient's language.
+
+### 2. Instant Access to Information
+- **User Story**: As a patient, I want immediate answers to common questions about pricing and recovery at any time of day.
+- **Acceptance Criteria**:
+    - AI-powered Chatbot accessible on the website.
+    - Knowledge base of FAQs (Pricing, Procedures, Post-op care).
+    - Handoff to human staff for complex queries.
+
+### 3. Staff Efficiency Optimization
+- **User Story**: As a staff member, I want the system to handle routine reminders so I can focus on patient care.
+- **Acceptance Criteria**:
+    - Automated appointment reminders (Email/SMS).
+    - Pre-filled patient forms (intake).
+    - Analytics dashboard showing patient volume and popular procedures.
+
 ## What We Don't Need
-- Complex AI chatbots (staff prefer human interaction)
-- Advanced scheduling algorithms (clinic has simple availability)
-- Multi-channel integrations (web messaging is sufficient)
-- Enterprise analytics (basic usage reports enough)
+- Multi-channel integrations (Line/WeChat API deep integration is still avoided, keep web-based).
 
 ## Success Metrics
 - Staff can handle international patients without language stress

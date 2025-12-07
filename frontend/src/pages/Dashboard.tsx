@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import api from '../services/api';
 import { Users, Calendar, MessageSquare } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 const Dashboard: React.FC = () => {
+    const { t } = useTranslation();
     const [stats, setStats] = useState({
         patients: 0,
         appointments: 0,
@@ -49,14 +51,14 @@ const Dashboard: React.FC = () => {
     return (
         <div className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <StatCard title="Total Patients" count={stats.patients} icon={Users} color="bg-blue-500" />
-                <StatCard title="Appointments Today" count={stats.appointments} icon={Calendar} color="bg-green-500" />
-                <StatCard title="Unread Messages" count={stats.messages} icon={MessageSquare} color="bg-purple-500" />
+                <StatCard title={t('staff.dashboard.totalPatients')} count={stats.patients} icon={Users} color="bg-blue-500" />
+                <StatCard title={t('staff.dashboard.todaysAppointments')} count={stats.appointments} icon={Calendar} color="bg-green-500" />
+                <StatCard title={t('staff.dashboard.unreadMessages')} count={stats.messages} icon={MessageSquare} color="bg-purple-500" />
             </div>
 
             <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-                <h3 className="text-lg font-semibold text-gray-800 mb-4">Recent Activity</h3>
-                <p className="text-gray-500">No recent activity to display.</p>
+                <h3 className="text-lg font-semibold text-gray-800 mb-4">{t('staff.dashboard.recentActivity')}</h3>
+                <p className="text-gray-500">{t('staff.dashboard.noRecentActivity')}</p>
             </div>
         </div>
     );

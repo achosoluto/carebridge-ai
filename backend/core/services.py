@@ -1,4 +1,9 @@
-from google.cloud import translate_v2 as translate
+from django.conf import settings
+from django.utils.module_loading import import_string
+try:
+    from google.cloud import translate_v2 as translate
+except ImportError:
+    translate = None
 import os
 import logging
 
@@ -7,7 +12,18 @@ logger = logging.getLogger(__name__)
 class TranslationService:
     def __init__(self):
         self.client = None
-        # Check if Google Credentials are set
+        
+        # Dynamically load the translation client
+        if hasattr(settings, 'TRANSLATION_SERVICE_CLASS'):
+            try:
+                client_class = import_string(settings.TRANSLATION_SERVICE_CLASS)
+                self.client = client_class()
+                logger.info(f"Translation client {settings.TRANSLATION_SERVICE_CLASS} initialized.")
+                return
+            except (ImportError, AttributeError) as e:
+                logger.warning(f"Failed to load translation client class: {e}")
+
+        # Fallback to default Google Translate client
         if os.getenv("GOOGLE_APPLICATION_CREDENTIALS") or os.getenv("GOOGLE_API_KEY"):
             try:
                 self.client = translate.Client()

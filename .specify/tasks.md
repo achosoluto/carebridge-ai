@@ -120,6 +120,38 @@
 - Troubleshooting tips
 - Contact information for support
 
+## Phase 7: Localization (Week 7)
+
+### T18: Localize Frontend to Korean
+- Translate Layout (Menu)
+- Translate Dashboard
+- Translate Patients View
+- Translate Messages
+- Translate Appointments
+- Translate Login
+
+## Phase 8: Advanced Features (Week 8)
+
+### T19: Patient Portal Foundation
+- Public-facing layout
+- Mobile-first design
+- Route separation
+
+### T20: Self-Service Booking
+- Public availability API
+- Booking Wizard (Date -> Doctor -> Confirm)
+- Email confirmation
+
+### T21: AI Chatbot
+- Knowledge Base model
+- LLM Integration (Mock or Real)
+- Frontend Widget
+
+### T22: Staff Analytics
+- Stats API expansion
+- Recharts integration
+- Visual graphs on Dashboard
+
 ## Success Validation
 - [ ] All tasks completed without major rewrites
 - [ ] Code is readable and maintainable

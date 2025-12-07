@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import api from '../services/api';
 import { Send, User, Globe } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface Patient {
     id: number;
@@ -18,6 +19,7 @@ interface Message {
 }
 
 const Messages: React.FC = () => {
+    const { t } = useTranslation();
     const [patients, setPatients] = useState<Patient[]>([]);
     const [selectedPatient, setSelectedPatient] = useState<Patient | null>(null);
     const [messages, setMessages] = useState<Message[]>([]);
@@ -30,9 +32,16 @@ const Messages: React.FC = () => {
     }, []);
 
     useEffect(() => {
+        let interval: any;
         if (selectedPatient) {
             fetchMessages(selectedPatient.id);
+            interval = setInterval(() => {
+                fetchMessages(selectedPatient.id, true); // true = silent refresh
+            }, 3000);
         }
+        return () => {
+            if (interval) clearInterval(interval);
+        };
     }, [selectedPatient]);
 
     useEffect(() => {
@@ -48,8 +57,8 @@ const Messages: React.FC = () => {
         }
     };
 
-    const fetchMessages = async (patientId: number) => {
-        setLoadingMessages(true);
+    const fetchMessages = async (patientId: number, silent = false) => {
+        if (!silent) setLoadingMessages(true);
         try {
             // In a real app, filter by patientId in the query: /messages/?patient=id
             // For now, assume backend returns all or implemented filter.
@@ -64,11 +73,11 @@ const Messages: React.FC = () => {
         } catch (error) {
             console.error('Error fetching messages:', error);
         } finally {
-            setLoadingMessages(false);
+            if (!silent) setLoadingMessages(false);
         }
     };
 
-    const handeSendMessage = async (e: React.FormEvent) => {
+    const handleSendMessage = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!selectedPatient || !newMessage.trim()) return;
 
@@ -86,7 +95,7 @@ const Messages: React.FC = () => {
             setNewMessage('');
         } catch (error) {
             console.error('Error sending message:', error);
-            alert('Failed to send message');
+            alert(t('messages.sendingFailed'));
         }
     };
 
@@ -99,7 +108,7 @@ const Messages: React.FC = () => {
             {/* Patient List Sidebar */}
             <div className="w-1/3 border-r border-gray-200 overflow-y-auto">
                 <div className="p-4 border-b border-gray-200 bg-gray-50">
-                    <h2 className="font-semibold text-gray-700">Conversations</h2>
+                    <h2 className="font-semibold text-gray-700">{t('messages.conversationList')}</h2>
                 </div>
                 <div className="divide-y divide-gray-100">
                     {patients.map(patient => (
@@ -132,15 +141,15 @@ const Messages: React.FC = () => {
                         <div className="p-4 border-b border-gray-200 flex justify-between items-center bg-gray-50">
                             <h2 className="font-semibold text-gray-800">{selectedPatient.name}</h2>
                             <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full">
-                                Translating to {selectedPatient.language}
+                                {t('messages.translatingTo', { language: selectedPatient.language })}
                             </span>
                         </div>
 
                         <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50">
                             {loadingMessages ? (
-                                <div className="text-center text-gray-400 mt-10">Loading messages...</div>
+                                <div className="text-center text-gray-400 mt-10">{t('messages.loadingMessages')}</div>
                             ) : messages.length === 0 ? (
-                                <div className="text-center text-gray-400 mt-10">No messages yet. Start conversation.</div>
+                                <div className="text-center text-gray-400 mt-10">{t('messages.noMessages')}</div>
                             ) : (
                                 messages.map(msg => {
                                     const isStaff = msg.sender_type === 'STAFF';
@@ -166,7 +175,7 @@ const Messages: React.FC = () => {
                             <form onSubmit={handeSendMessage} className="flex gap-2">
                                 <input
                                     type="text"
-                                    placeholder="Type a message in your language..."
+                                    placeholder={t('messages.inputPlaceholder')}
                                     className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                                     value={newMessage}
                                     onChange={e => setNewMessage(e.target.value)}
@@ -184,7 +193,7 @@ const Messages: React.FC = () => {
                 ) : (
                     <div className="flex-1 flex flex-col items-center justify-center text-gray-400">
                         <User className="w-16 h-16 mb-4 opacity-20" />
-                        <p>Select a patient to view conversation</p>
+                        <p>{t('messages.selectPatient')}</p>
                     </div>
                 )}
             </div>

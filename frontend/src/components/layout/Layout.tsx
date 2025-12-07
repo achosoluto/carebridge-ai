@@ -1,15 +1,17 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { LayoutDashboard, Users, Calendar, MessageSquare, LogOut } from 'lucide-react';
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+    const { t } = useTranslation();
     const location = useLocation();
 
     const navItems = [
-        { name: 'Dashboard', path: '/', icon: LayoutDashboard },
-        { name: 'Patients', path: '/patients', icon: Users },
-        { name: 'Appointments', path: '/appointments', icon: Calendar },
-        { name: 'Messages', path: '/messages', icon: MessageSquare },
+        { name: t('staff.layout.dashboard'), path: '/', icon: LayoutDashboard },
+        { name: t('staff.layout.patients'), path: '/patients', icon: Users },
+        { name: t('staff.layout.appointments'), path: '/appointments', icon: Calendar },
+        { name: t('staff.layout.messages'), path: '/messages', icon: MessageSquare },
     ];
 
     return (
@@ -17,8 +19,8 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             {/* Sidebar */}
             <div className="w-64 bg-white border-r border-gray-200">
                 <div className="p-6">
-                    <h1 className="text-2xl font-bold text-primary">CareBridge</h1>
-                    <p className="text-sm text-gray-500">Staff Portal</p>
+                    <h1 className="text-2xl font-bold text-primary">{t('staff.layout.title')}</h1>
+                    <p className="text-sm text-gray-500">{t('staff.layout.subtitle')}</p>
                 </div>
 
                 <nav className="mt-6 px-4 space-y-2">
@@ -31,8 +33,8 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                                 key={item.path}
                                 to={item.path}
                                 className={`flex items-center px-4 py-3 rounded-lg transition-colors ${isActive
-                                        ? 'bg-primary/10 text-primary'
-                                        : 'text-gray-600 hover:bg-gray-100'
+                                    ? 'bg-primary/10 text-primary'
+                                    : 'text-gray-600 hover:bg-gray-100'
                                     }`}
                             >
                                 <Icon className="w-5 h-5 mr-3" />
@@ -45,7 +47,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                 <div className="absolute bottom-0 w-64 p-4 border-t border-gray-200">
                     <button className="flex items-center w-full px-4 py-3 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
                         <LogOut className="w-5 h-5 mr-3" />
-                        <span className="font-medium">Logout</span>
+                        <span className="font-medium">{t('staff.layout.logout')}</span>
                     </button>
                 </div>
             </div>
@@ -60,7 +62,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                         <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold">
                             S
                         </div>
-                        <span className="text-sm font-medium text-gray-700">Staff Member</span>
+                        <span className="text-sm font-medium text-gray-700">{t('staff.layout.staffMember')}</span>
                     </div>
                 </header>
                 <main className="p-8">

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import api from '../services/api';
 import { Plus, Search, User } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface Patient {
     id: number;
@@ -11,6 +12,7 @@ interface Patient {
 }
 
 const Patients: React.FC = () => {
+    const { t } = useTranslation();
     const [patients, setPatients] = useState<Patient[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
@@ -41,7 +43,7 @@ const Patients: React.FC = () => {
             fetchPatients(); // Refresh list
         } catch (error) {
             console.error('Error creating patient:', error);
-            alert('Failed to create patient');
+            alert(t('staff.patients.creationFailed'));
         }
     };
 
@@ -49,18 +51,18 @@ const Patients: React.FC = () => {
         p.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-    if (loading) return <div className="p-8 text-center text-gray-500">Loading patients...</div>;
+    if (loading) return <div className="p-8 text-center text-gray-500">환자 목록 로딩 중...</div>;
 
     return (
         <div>
             <div className="flex justify-between items-center mb-6">
-                <h1 className="text-2xl font-bold text-gray-800">Patients</h1>
+                <h1 className="text-2xl font-bold text-gray-800">환자 관리</h1>
                 <button
                     onClick={() => setShowModal(true)}
                     className="bg-primary text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-600 transition-colors"
                 >
                     <Plus className="w-4 h-4" />
-                    Add Patient
+                    환자 추가
                 </button>
             </div>
 
@@ -70,7 +72,7 @@ const Patients: React.FC = () => {
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                         <input
                             type="text"
-                            placeholder="Search patients..."
+                            placeholder="환자 검색..."
                             className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
@@ -81,11 +83,11 @@ const Patients: React.FC = () => {
                 <table className="w-full text-left">
                     <thead className="bg-gray-50 text-gray-500 text-sm">
                         <tr>
-                            <th className="px-6 py-3 font-medium">Name</th>
-                            <th className="px-6 py-3 font-medium">Language</th>
-                            <th className="px-6 py-3 font-medium">Contact</th>
-                            <th className="px-6 py-3 font-medium">Joined</th>
-                            <th className="px-6 py-3 font-medium">Actions</th>
+                            <th className="px-6 py-3 font-medium">이름</th>
+                            <th className="px-6 py-3 font-medium">언어</th>
+                            <th className="px-6 py-3 font-medium">연락처</th>
+                            <th className="px-6 py-3 font-medium">등록일</th>
+                            <th className="px-6 py-3 font-medium">작업</th>
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-200">
@@ -102,9 +104,9 @@ const Patients: React.FC = () => {
                     ${patient.language === 'JA' ? 'bg-red-100 text-red-700' :
                                             patient.language === 'ZH' ? 'bg-yellow-100 text-yellow-700' :
                                                 'bg-blue-100 text-blue-700'}`}>
-                                        {patient.language === 'JA' ? 'Japanese' :
-                                            patient.language === 'ZH' ? 'Chinese' :
-                                                patient.language === 'KO' ? 'Korean' : patient.language}
+                                        {patient.language === 'JA' ? '일본어' :
+                                            patient.language === 'ZH' ? '중국어' :
+                                                patient.language === 'KO' ? '한국어' : patient.language}
                                     </span>
                                 </td>
                                 <td className="px-6 py-4 text-gray-600">{patient.contact_info || '-'}</td>
@@ -112,14 +114,14 @@ const Patients: React.FC = () => {
                                     {new Date(patient.created_at).toLocaleDateString()}
                                 </td>
                                 <td className="px-6 py-4">
-                                    <button className="text-primary hover:underline text-sm font-medium">View</button>
+                                    <button className="text-primary hover:underline text-sm font-medium">상세보기</button>
                                 </td>
                             </tr>
                         ))}
                         {filteredPatients.length === 0 && (
                             <tr>
                                 <td colSpan={5} className="px-6 py-8 text-center text-gray-500">
-                                    No patients found.
+                                    등록된 환자가 없습니다.
                                 </td>
                             </tr>
                         )}
@@ -131,11 +133,11 @@ const Patients: React.FC = () => {
             {showModal && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
                     <div className="bg-white rounded-xl shadow-xl w-full max-w-md p-6">
-                        <h2 className="text-xl font-bold mb-4">Add New Patient</h2>
+                        <h2 className="text-xl font-bold mb-4">환자 추가</h2>
                         <form onSubmit={handleCreatePatient}>
                             <div className="space-y-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">이름</label>
                                     <input
                                         required
                                         type="text"
@@ -145,20 +147,20 @@ const Patients: React.FC = () => {
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Language</label>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">사용 언어</label>
                                     <select
                                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                                         value={newPatient.language}
                                         onChange={e => setNewPatient({ ...newPatient, language: e.target.value })}
                                     >
-                                        <option value="JA">Japanese</option>
-                                        <option value="ZH">Chinese</option>
-                                        <option value="KO">Korean</option>
-                                        <option value="EN">English</option>
+                                        <option value="JA">일본어</option>
+                                        <option value="ZH">중국어</option>
+                                        <option value="KO">한국어</option>
+                                        <option value="EN">영어</option>
                                     </select>
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Contact Info</label>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">연락처</label>
                                     <input
                                         type="text"
                                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
@@ -173,13 +175,13 @@ const Patients: React.FC = () => {
                                     onClick={() => setShowModal(false)}
                                     className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg"
                                 >
-                                    Cancel
+                                    취소
                                 </button>
                                 <button
                                     type="submit"
                                     className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-blue-600"
                                 >
-                                    Create Patient
+                                    환자 등록
                                 </button>
                             </div>
                         </form>

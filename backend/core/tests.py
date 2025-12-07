@@ -54,6 +54,38 @@ class APITest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 1)
 
+    def test_create_patient(self):
+        url = reverse('patient-list')
+        data = {
+            "name": "New Test Patient",
+            "language": "EN",
+            "contact_info": "newpatient@example.com"
+        }
+        response = self.client.post(url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.data['name'], "New Test Patient")
+        self.assertEqual(response.data['language'], "EN")
+        self.assertEqual(Patient.objects.count(), 2)  # Original + new
+
+    def test_update_patient(self):
+        url = reverse('patient-detail', kwargs={'pk': self.patient.id})
+        data = {
+            "name": "Updated Patient Name",
+            "language": "KO",
+            "contact_info": "updated@example.com"
+        }
+        response = self.client.put(url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['name'], "Updated Patient Name")
+        self.assertEqual(response.data['language'], "KO")
+
+    def test_delete_patient(self):
+        url = reverse('patient-detail', kwargs={'pk': self.patient.id})
+        initial_count = Patient.objects.count()
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertEqual(Patient.objects.count(), initial_count - 1)
+
     def test_create_appointment(self):
         url = reverse('appointment-list')
         data = {
