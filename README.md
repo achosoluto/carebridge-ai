@@ -44,7 +44,7 @@ carebridge-ai/
 
 - **Backend**: Django 4.2 + Django REST Framework
 - **Database**: PostgreSQL
-- **Cache**: Redis with Celery
+- **Cache**: Django LocMemCache (MVP), Celery with database backend
 - **AI**: OpenAI GPT-4, Google Translate, Azure Speech
 - **Communication**: KakaoTalk Business API, WeChat, LINE, Twilio
 - **Testing**: pytest with factory-boy and faker

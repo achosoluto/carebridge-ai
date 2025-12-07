@@ -41,3 +41,55 @@ INFO 2025-11-22 14:18:53,771 basehttp 35312 6198652928 "GET /api/patients/ HTTP/
 INFO 2025-11-22 14:18:53,784 basehttp 35312 6198652928 "GET /api/messages/ HTTP/1.1" 200 8941
 INFO 2025-11-22 21:35:18,903 basehttp 35312 6198652928 "GET /api/patients/ HTTP/1.1" 200 1625
 INFO 2025-11-22 21:35:18,914 basehttp 35312 6198652928 "GET /api/messages/ HTTP/1.1" 200 8941
+INFO 2025-12-06 21:03:22,936 autoreload 10007 8582733568 Watching for file changes with StatReloader
+ERROR 2025-12-06 21:09:19,312 log 10007 6204370944 Internal Server Error: /
+Traceback (most recent call last):
+  File "/Users/acmac/.pyenv/versions/3.11.5/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/acmac/.pyenv/versions/3.11.5/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/django/core/handlers/base.py", line 220, in _get_response
+    response = response.render()
+               ^^^^^^^^^^^^^^^^^
+  File "/Users/acmac/.pyenv/versions/3.11.5/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/django/template/response.py", line 114, in render
+    self.content = self.rendered_content
+                   ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/acmac/.pyenv/versions/3.11.5/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/django/template/response.py", line 90, in rendered_content
+    template = self.resolve_template(self.template_name)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/acmac/.pyenv/versions/3.11.5/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/django/template/response.py", line 72, in resolve_template
+    return select_template(template, using=self.using)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/acmac/.pyenv/versions/3.11.5/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/django/template/loader.py", line 47, in select_template
+    raise TemplateDoesNotExist(", ".join(template_name_list), chain=chain)
+django.template.exceptions.TemplateDoesNotExist: index.html
+ERROR 2025-12-06 21:09:19,313 basehttp 10007 6204370944 "GET / HTTP/1.1" 500 85819
+INFO 2025-12-06 21:10:36,096 autoreload 10007 8582733568 /Users/acmac/Documents/GitHub/carebridge-ai/config/settings.py changed, reloading.
+INFO 2025-12-06 21:10:36,670 autoreload 15110 8582733568 Watching for file changes with StatReloader
+INFO 2025-12-06 21:10:43,453 autoreload 15110 8582733568 /Users/acmac/Documents/GitHub/carebridge-ai/config/settings.py changed, reloading.
+INFO 2025-12-06 21:10:43,913 autoreload 15551 8582733568 Watching for file changes with StatReloader
+INFO 2025-12-06 21:10:54,674 autoreload 15551 8582733568 /Users/acmac/Documents/GitHub/carebridge-ai/clinic_ai/api/views.py changed, reloading.
+INFO 2025-12-06 21:10:55,137 autoreload 15749 8582733568 Watching for file changes with StatReloader
+INFO 2025-12-06 21:11:04,960 basehttp 15749 6160756736 "GET /api/health/ HTTP/1.1" 200 148
+INFO 2025-12-06 21:11:10,862 basehttp 15749 6160756736 "GET /api/patients/ HTTP/1.1" 200 1625
+INFO 2025-12-06 21:11:45,168 basehttp 15749 6160756736 "GET /api/health/ HTTP/1.1" 200 148
+ERROR 2025-12-06 21:18:42,787 log 15749 6160756736 Internal Server Error: /
+Traceback (most recent call last):
+  File "/Users/acmac/.pyenv/versions/3.11.5/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/acmac/.pyenv/versions/3.11.5/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/django/core/handlers/base.py", line 220, in _get_response
+    response = response.render()
+               ^^^^^^^^^^^^^^^^^
+  File "/Users/acmac/.pyenv/versions/3.11.5/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/django/template/response.py", line 114, in render
+    self.content = self.rendered_content
+                   ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/acmac/.pyenv/versions/3.11.5/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/django/template/response.py", line 90, in rendered_content
+    template = self.resolve_template(self.template_name)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/acmac/.pyenv/versions/3.11.5/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/django/template/response.py", line 72, in resolve_template
+    return select_template(template, using=self.using)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/acmac/.pyenv/versions/3.11.5/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/django/template/loader.py", line 47, in select_template
+    raise TemplateDoesNotExist(", ".join(template_name_list), chain=chain)
+django.template.exceptions.TemplateDoesNotExist: index.html
+ERROR 2025-12-06 21:18:42,789 basehttp 15749 6160756736 "GET / HTTP/1.1" 500 86917

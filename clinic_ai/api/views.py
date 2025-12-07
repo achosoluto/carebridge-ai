@@ -153,7 +153,7 @@ class HealthCheckView(APIView):
                 'timestamp': datetime.now().isoformat(),
                 'services': {
                     'database': 'healthy' if db_healthy else 'unhealthy',
-                    'redis': 'not_configured',  # Placeholder
+                    'cache': 'local_memory',  # Using Django's LocMemCache
                     'ai_service': 'not_configured'  # Placeholder
                 }
             })
