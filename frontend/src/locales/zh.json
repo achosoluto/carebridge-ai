@@ -1,0 +1,70 @@
+{
+  "login": {
+    "title": "CareBridge 员工登录",
+    "username": "用户名",
+    "password": "密码",
+    "loginButton": "登录",
+    "invalidCredentials": "凭据无效。请重试。"
+  },
+  "chat": {
+    "title": "聊天支持",
+    "welcomeMessage": "您好！今天有什么可以帮您的吗？",
+    "inputPlaceholder": "输入您的消息...",
+    "sendButton": "发送",
+    "close": "关闭聊天",
+    "botResponse": "感谢您的留言。工作人员稍后会回复您。"
+  },
+  "messages": {
+    "conversationList": "对话列表",
+    "noMessages": "没有对话记录。发送消息开始对话。",
+    "inputPlaceholder": "输入消息 (韩语)...",
+    "sendingFailed": "发送消息失败。",
+    "loadingMessages": "正在加载消息...",
+    "translatingTo": "正在翻译为 {{language}}"
+  },
+  "staff": {
+    "appointments": {
+      "title": "预约管理",
+      "addAppointment": "添加预约",
+      "scheduleTitle": "预约日程",
+      "noAppointments": "没有预定的预约",
+      "doctorLabel": "医生",
+      "dateLabel": "日期",
+      "timeLabel": "时间",
+      "cancelButton": "取消",
+      "confirmButton": "确认预约",
+      "bookingFailed": "预约失败。",
+      "loadingAppointments": "正在加载预约...",
+      "bookAppointment": "预约",
+      "selectPatient": "选择患者",
+      "selectPatientPlaceholder": "选择一位患者",
+      "selectDoctor": "选择医生",
+      "placeholderDoctor": "选择一位医生",
+      "status": {
+        "PENDING": "待定",
+        "CONFIRMED": "已确认",
+        "COMPLETED": "已完成",
+        "CANCELLED": "已取消"
+      }
+    }
+  },
+  "portal": {
+    "layout": {
+      "title": "CareBridge",
+      "home": "首页",
+      "bookNow": "立即预约",
+      "copyright": "© 2025 CareBridge. 保留所有权利。"
+    },
+    "home": {
+      "welcome": "欢迎来到 CareBridge",
+      "subtitle": "您值得信赖的医疗保健伙伴",
+      "bookConsultation": "预约咨询",
+      "selfBooking": "自助预约",
+      "selfBookingDesc": "随时在线安排预约",
+      "support": "24/7 支持",
+      "supportDesc": "通过我们的 AI 助手随时获取帮助",
+      "procedures": "医疗程序",
+      "proceduresDesc": "了解我们的服务和治疗"
+    }
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "login": {
+    "title": "CareBridge スタッフログイン",
+    "username": "ユーザー名",
+    "password": "パスワード",
+    "loginButton": "ログイン",
+    "invalidCredentials": "認証情報が無効です。もう一度お試しください。"
+  },
+  "chat": {
+    "title": "チャットサポート",
+    "welcomeMessage": "こんにちは！今日はどのようなご用件でしょうか？",
+    "inputPlaceholder": "メッセージを入力してください...",
+    "sendButton": "送信",
+    "close": "チャットを閉じる",
+    "botResponse": "メッセージありがとうございます。スタッフがまもなく対応いたします。"
+  },
+  "messages": {
+    "conversationList": "会話リスト",
+    "noMessages": "会話履歴がありません。メッセージを送信して開始してください。",
+    "inputPlaceholder": "メッセージを入力 (韓国語)...",
+    "sendingFailed": "メッセージの送信に失敗しました。",
+    "loadingMessages": "メッセージを読み込んでいます...",
+    "translatingTo": "{{language}}に翻訳中"
+  },
+  "staff": {
+    "appointments": {
+      "title": "予約管理",
+      "addAppointment": "予約を追加",
+      "scheduleTitle": "予約スケジュール",
+      "noAppointments": "予定されている予約はありません",
+      "doctorLabel": "医師",
+      "dateLabel": "日付",
+      "timeLabel": "時間",
+      "cancelButton": "キャンセル",
+      "confirmButton": "予約を確定",
+      "bookingFailed": "予約に失敗しました。",
+      "loadingAppointments": "予約を読み込んでいます...",
+      "bookAppointment": "予約する",
+      "selectPatient": "患者を選択",
+      "selectPatientPlaceholder": "患者を選択してください",
+      "selectDoctor": "医師を選択",
+      "placeholderDoctor": "医師を選択してください",
+      "status": {
+        "PENDING": "保留中",
+        "CONFIRMED": "確定済み",
+        "COMPLETED": "完了",
+        "CANCELLED": "キャンセル済み"
+      }
+    }
+  },
+  "portal": {
+    "layout": {
+      "title": "ケアブリッジ",
+      "home": "ホーム",
+      "bookNow": "今すぐ予約",
+      "copyright": "© 2025 ケアブリッジ. All rights reserved."
+    },
+    "home": {
+      "welcome": "ケアブリッジへようこそ",
+      "subtitle": "あなたの信頼できるヘルスケアパートナー",
+      "bookConsultation": "相談を予約する",
+      "selfBooking": "セルフ予約",
+      "selfBookingDesc": "ご都合の良い時間にオンラインで予約",
+      "support": "24時間365日サポート",
+      "supportDesc": "AIアシスタントがいつでもサポートします",
+      "procedures": "医療処置",
+      "proceduresDesc": "サービスと治療について学ぶ"
+    }
+  }
+}

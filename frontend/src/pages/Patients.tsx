@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from '../services/api';
-import { Plus, Search, User } from 'lucide-react';
+import { Plus, Search, User, Edit } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 interface Patient {
@@ -17,7 +17,10 @@ const Patients: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
     const [showModal, setShowModal] = useState(false);
+    const [showEditModal, setShowEditModal] = useState(false);
+    const [editingPatient, setEditingPatient] = useState<Patient | null>(null);
     const [newPatient, setNewPatient] = useState({ name: '', language: 'JA', contact_info: '' });
+    const [editPatient, setEditPatient] = useState({ id: '', name: '', language: 'JA', contact_info: '' });
 
     useEffect(() => {
         fetchPatients();
@@ -45,6 +48,33 @@ const Patients: React.FC = () => {
             console.error('Error creating patient:', error);
             alert(t('staff.patients.creationFailed'));
         }
+    };
+
+    const handleEditPatient = async (e: React.FormEvent) => {
+        e.preventDefault();
+        try {
+            await api.put(`/patients/${editPatient.id}/`, {
+                name: editPatient.name,
+                language: editPatient.language,
+                contact_info: editPatient.contact_info
+            });
+            setShowEditModal(false);
+            fetchPatients(); // Refresh list
+        } catch (error) {
+            console.error('Error updating patient:', error);
+            alert('Failed to update patient');
+        }
+    };
+
+    const handleEditClick = (patient: Patient) => {
+        setEditingPatient(patient);
+        setEditPatient({
+            id: patient.id.toString(),
+            name: patient.name,
+            language: patient.language,
+            contact_info: patient.contact_info
+        });
+        setShowEditModal(true);
     };
 
     const filteredPatients = patients.filter(p =>
@@ -114,7 +144,13 @@ const Patients: React.FC = () => {
                                     {new Date(patient.created_at).toLocaleDateString()}
                                 </td>
                                 <td className="px-6 py-4">
-                                    <button className="text-primary hover:underline text-sm font-medium">상세보기</button>
+                                    <button
+                                        onClick={() => handleEditClick(patient)}
+                                        className="text-primary hover:underline text-sm font-medium flex items-center gap-1"
+                                    >
+                                        <Edit className="w-3 h-3" />
+                                        수정
+                                    </button>
                                 </td>
                             </tr>
                         ))}
@@ -129,7 +165,7 @@ const Patients: React.FC = () => {
                 </table>
             </div>
 
-            {/* Modal */}
+            {/* Add Patient Modal */}
             {showModal && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
                     <div className="bg-white rounded-xl shadow-xl w-full max-w-md p-6">
@@ -182,6 +218,66 @@ const Patients: React.FC = () => {
                                     className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-blue-600"
                                 >
                                     환자 등록
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
+
+            {/* Edit Patient Modal */}
+            {showEditModal && (
+                <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+                    <div className="bg-white rounded-xl shadow-xl w-full max-w-md p-6">
+                        <h2 className="text-xl font-bold mb-4">환자 정보 수정</h2>
+                        <form onSubmit={handleEditPatient}>
+                            <div className="space-y-4">
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">이름</label>
+                                    <input
+                                        required
+                                        type="text"
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                                        value={editPatient.name}
+                                        onChange={e => setEditPatient({ ...editPatient, name: e.target.value })}
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">사용 언어</label>
+                                    <select
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                                        value={editPatient.language}
+                                        onChange={e => setEditPatient({ ...editPatient, language: e.target.value })}
+                                    >
+                                        <option value="JA">일본어</option>
+                                        <option value="ZH">중국어</option>
+                                        <option value="KO">한국어</option>
+                                        <option value="EN">영어</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">연락처</label>
+                                    <input
+                                        type="text"
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                                        value={editPatient.contact_info}
+                                        onChange={e => setEditPatient({ ...editPatient, contact_info: e.target.value })}
+                                    />
+                                </div>
+                            </div>
+                            <div className="mt-6 flex justify-end gap-3">
+                                <button
+                                    type="button"
+                                    onClick={() => setShowEditModal(false)}
+                                    className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg"
+                                >
+                                    취소
+                                </button>
+                                <button
+                                    type="submit"
+                                    className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-blue-600"
+                                >
+                                    수정
                                 </button>
                             </div>
                         </form>

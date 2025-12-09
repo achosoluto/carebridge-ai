@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from '../services/api';
-import { Clock, Plus, User } from 'lucide-react';
+import { Clock, Plus, User, Edit, CheckCircle, XCircle, MoreVertical } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 interface Appointment {
@@ -27,6 +27,8 @@ const Appointments: React.FC = () => {
     const [patients, setPatients] = useState<Patient[]>([]);
     const [doctors, setDoctors] = useState<Doctor[]>([]);
     const [showModal, setShowModal] = useState(false);
+    const [showEditModal, setShowEditModal] = useState(false);
+    const [editingAppointment, setEditingAppointment] = useState<Appointment | null>(null);
     const [loading, setLoading] = useState(true);
 
     const [booking, setBooking] = useState({
@@ -34,6 +36,15 @@ const Appointments: React.FC = () => {
         doctor: '',
         date: '',
         time: ''
+    });
+
+    const [editing, setEditing] = useState({
+        id: '',
+        patient: '',
+        doctor: '',
+        date: '',
+        time: '',
+        status: 'PENDING' as 'PENDING' | 'CONFIRMED' | 'COMPLETED' | 'CANCELLED'
     });
 
     useEffect(() => {
@@ -73,6 +84,46 @@ const Appointments: React.FC = () => {
         } catch (error) {
             console.error('Error booking appointment:', error);
             alert(t('staff.appointments.bookingFailed'));
+        }
+    };
+
+    const handleEdit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        try {
+            const datetime = `${editing.date}T${editing.time}:00Z`;
+            await api.put(`/appointments/${editing.id}/`, {
+                patient: editing.patient,
+                doctor: editing.doctor,
+                datetime: datetime,
+                status: editing.status
+            });
+            setShowEditModal(false);
+            fetchData(); // Refresh
+        } catch (error) {
+            console.error('Error updating appointment:', error);
+            alert('Failed to update appointment');
+        }
+    };
+
+    const handleEditClick = (appt: Appointment) => {
+        setEditingAppointment(appt);
+        setEditing({
+            id: appt.id.toString(),
+            patient: patients.find(p => p.name === appt.patient_name)?.id.toString() || '',
+            doctor: doctors.find(d => d.name === appt.doctor_name)?.id.toString() || '',
+            date: new Date(appt.datetime).toISOString().split('T')[0],
+            time: new Date(appt.datetime).toTimeString().slice(0, 5),
+            status: appt.status
+        });
+        setShowEditModal(true);
+    };
+
+    const handleStatusChange = async (appointmentId: number, newStatus: string) => {
+        try {
+            await api.patch(`/appointments/${appointmentId}/`, { status: newStatus });
+            fetchData();
+        } catch (error) {
+            console.error('Error updating status:', error);
         }
     };
 
@@ -135,7 +186,25 @@ const Appointments: React.FC = () => {
                                                 {t(`staff.appointments.status.${appt.status}`, appt.status)}
                                             </span>
                                         </div>
-                                        {/* Actions could go here */}
+                                        <div className="flex gap-2">
+                                            <button
+                                                onClick={() => handleEditClick(appt)}
+                                                className="p-1 text-gray-400 hover:text-blue-600 transition-colors"
+                                                title="Edit appointment"
+                                            >
+                                                <Edit className="w-4 h-4" />
+                                            </button>
+                                            <select
+                                                value={appt.status}
+                                                onChange={(e) => handleStatusChange(appt.id, e.target.value)}
+                                                className={`text-xs px-2 py-1 rounded border-0 ${getStatusColor(appt.status)}`}
+                                            >
+                                                <option value="PENDING">대기</option>
+                                                <option value="CONFIRMED">확인</option>
+                                                <option value="COMPLETED">완료</option>
+                                                <option value="CANCELLED">취소</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                             ))
@@ -216,6 +285,95 @@ const Appointments: React.FC = () => {
                                         className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-blue-600"
                                     >
                                         {t('staff.appointments.confirmButton')}
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
+
+            {/* Edit Modal */}
+            {showEditModal && (
+                <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+                    <div className="bg-white rounded-xl shadow-xl w-full max-w-md p-6">
+                        <h2 className="text-xl font-bold mb-4">예약 수정</h2>
+                        <form onSubmit={handleEdit}>
+                            <div className="space-y-4">
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">환자</label>
+                                    <select
+                                        required
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                                        value={editing.patient}
+                                        onChange={e => setEditing({ ...editing, patient: e.target.value })}
+                                    >
+                                        {patients.map(p => (
+                                            <option key={p.id} value={p.id}>{p.name}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">의사</label>
+                                    <select
+                                        required
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                                        value={editing.doctor}
+                                        onChange={e => setEditing({ ...editing, doctor: e.target.value })}
+                                    >
+                                        {doctors.map(d => (
+                                            <option key={d.id} value={d.id}>{d.name}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">상태</label>
+                                    <select
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                                        value={editing.status}
+                                        onChange={e => setEditing({ ...editing, status: e.target.value as any })}
+                                    >
+                                        <option value="PENDING">대기</option>
+                                        <option value="CONFIRMED">확인</option>
+                                        <option value="COMPLETED">완료</option>
+                                        <option value="CANCELLED">취소</option>
+                                    </select>
+                                </div>
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">날짜</label>
+                                        <input
+                                            required
+                                            type="date"
+                                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                                            value={editing.date}
+                                            onChange={e => setEditing({ ...editing, date: e.target.value })}
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">시간</label>
+                                        <input
+                                            required
+                                            type="time"
+                                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                                            value={editing.time}
+                                            onChange={e => setEditing({ ...editing, time: e.target.value })}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="mt-6 flex justify-end gap-3">
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowEditModal(false)}
+                                        className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg"
+                                    >
+                                        취소
+                                    </button>
+                                    <button
+                                        type="submit"
+                                        className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-blue-600"
+                                    >
+                                        수정
                                     </button>
                                 </div>
                             </div>

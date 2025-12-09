@@ -39,6 +39,14 @@
       "backToHome": "홈으로 돌아가기"
     }
   },
+  "chat": {
+    "title": "채팅 지원",
+    "welcomeMessage": "안녕하세요! 오늘 무엇을 도와드릴까요?",
+    "inputPlaceholder": "메시지를 입력하세요...",
+    "sendButton": "전송",
+    "close": "채팅 닫기",
+    "botResponse": "메시지 감사합니다. 직원이 곧 답변해 드리겠습니다."
+  },
   "staff": {
     "layout": {
       "title": "CareBridge",

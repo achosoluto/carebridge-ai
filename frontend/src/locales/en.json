@@ -14,7 +14,35 @@
     "loadingMessages": "Loading messages...",
     "translatingTo": "Translating to {{language}}"
   },
+  "chat": {
+    "title": "Chat Support",
+    "welcomeMessage": "Hello! How can I help you today?",
+    "inputPlaceholder": "Type your message...",
+    "sendButton": "Send",
+    "close": "Close chat",
+    "botResponse": "Thank you for your message. A staff member will respond shortly."
+  },
   "staff": {
+    "layout": {
+      "title": "CareBridge",
+      "subtitle": "Staff Portal",
+      "dashboard": "Dashboard",
+      "patients": "Patients",
+      "appointments": "Appointments",
+      "messages": "Messages",
+      "logout": "Logout",
+      "staffMember": "Staff Member"
+    },
+    "dashboard": {
+      "recentActivity": "Recent Activity",
+      "noRecentActivity": "No recent activity to display.",
+      "totalPatients": "Total Patients",
+      "todaysAppointments": "Today's Appointments",
+      "unreadMessages": "Unread Messages"
+    },
+    "patients": {
+      "creationFailed": "Failed to create patient."
+    },
     "appointments": {
       "title": "Appointment Management",
       "addAppointment": "Add Appointment",
@@ -38,6 +66,25 @@
         "COMPLETED": "Completed",
         "CANCELLED": "Cancelled"
       }
+    }
+  },
+  "portal": {
+    "layout": {
+      "title": "CareBridge",
+      "home": "Home",
+      "bookNow": "Book Now",
+      "copyright": "© 2025 CareBridge. All rights reserved."
+    },
+    "home": {
+      "welcome": "Welcome to CareBridge",
+      "subtitle": "Your trusted healthcare companion",
+      "bookConsultation": "Book Consultation",
+      "selfBooking": "Self Booking",
+      "selfBookingDesc": "Schedule appointments online at your convenience",
+      "support": "24/7 Support",
+      "supportDesc": "Get help anytime with our AI assistant",
+      "procedures": "Medical Procedures",
+      "proceduresDesc": "Learn about our services and treatments"
     }
   }
 }
